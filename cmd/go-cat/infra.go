@@ -11,8 +11,8 @@ import (
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
 )
 
-// NewInfrastructureFromCliContext converts cli.Context to Infrastructure
-func NewInfrastructureFromCliContext(context *cli.Context) *infrastructure.Metadata {
+// newInfrastructureFromCliContext converts cli.Context to Infrastructure
+func newInfrastructureFromCliContext(context *cli.Context) *infrastructure.Metadata {
 	infra := &infrastructure.Metadata{
 		Name:           context.String("name"),
 		CommitSha:      context.String("commit-sha"),

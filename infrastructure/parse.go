@@ -13,20 +13,6 @@ import (
 
 var logger = logging.GetLogger()
 
-// AddInfrastructureToMarkdown receives the infra.json in bytes, and Infrastructure struct, merges
-// them together. It then converts the InfrastructureMetadata to Markdown.
-func AddInfrastructureToMarkdown(infra *Metadata, jsonData []byte) (*MetadataGroup, error) {
-	// TODO: Remove this function
-	infraMeta := &MetadataGroup{}
-	if jsonData != nil {
-		err := json.Unmarshal(jsonData, infraMeta)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return infraMeta.Add(infra)
-}
-
 // RemoveInfrastructureToMarkdown receives the infra.json in bytes, and id string, removes the matching id
 // It then converts the InfrastructureMetadata to Markdown.
 func RemoveInfrastructureToMarkdown(id string, jsonData []byte) (*MetadataGroup, error) {
