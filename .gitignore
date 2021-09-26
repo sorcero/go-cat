@@ -1,0 +1,4 @@
+/cmd/go-cat/infra.json
+/cmd/go-cat/go-cat
+/.idea
+/cmd/go-cat/.go-cat.queue.db.json
