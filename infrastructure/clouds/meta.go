@@ -7,25 +7,11 @@
 package clouds
 
 import (
-	"fmt"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
 )
 
 var Meta = map[string]Metadata{
-	"GCP": {
-		Id:   "GCP",
-		Name: "Google Cloud Platform",
-		Types: []*TypeMetadata{
-			{
-				Id:   "run.googleapis.com",
-				Name: "Google Cloud Run",
-				GetMonitoringLink: func(m infrastructure.Metadata) string {
-					return fmt.Sprintf(
-						"https://console.cloud.google.com/run/detail/us-east1/%s/logs?project=%s", m.Name, m.CloudProjectId)
-				},
-			},
-		},
-	},
+	"GCP": googleInfrastructureMetadata,
 }
 
 func getInfraMetaFromCloud(infra infrastructure.Metadata) *TypeMetadata {
