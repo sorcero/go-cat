@@ -9,43 +9,18 @@ import (
 	"gitlab.com/sorcero/community/go-cat/ops"
 	"gitlab.com/sorcero/community/go-cat/parser"
 	"io/ioutil"
-	"regexp"
 )
 
 func catInfrastructureCliContext(context *cli.Context) error {
-	infraJson, err := ops.Cat(config.NewGlobalConfigFromCliContext(context))
+	infra, err := ops.Cat(config.NewGlobalConfigFromCliContext(context), context.Args().First())
 	if err != nil {
 		return err
 	}
 
-	infraMeta := &infrastructure.MetadataGroup{}
-	err = json.Unmarshal(infraJson, infraMeta)
+	jsonData, err := json.Marshal(infra)
 	if err != nil {
 		return err
 	}
-	var data []*infrastructure.Metadata
-	args := context.Args().First()
-	if args == "" {
-		data = infraMeta.Infra
-	} else {
-		infras := infraMeta.Infra
-		idRegex, err := regexp.Compile(args)
-		if err != nil {
-			return err
-		}
-
-		for i := range infras {
-			if idRegex.MatchString(infras[i].GetId()) {
-				data = append(data, infras[i])
-			}
-		}
-	}
-
-	jsonData, err := json.Marshal(data)
-	if err != nil {
-		return err
-	}
-
 	fmt.Println(string(jsonData))
 	return nil
 }

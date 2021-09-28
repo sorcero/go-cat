@@ -1,6 +1,8 @@
 package ops
 
 import (
+	"github.com/go-git/go-billy/v5"
+	"github.com/go-git/go-git/v5"
 	"gitlab.com/sorcero/community/go-cat/config"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
 	"gitlab.com/sorcero/community/go-cat/parser"
@@ -13,6 +15,10 @@ func Remove(cfg config.GlobalConfig, id string) error {
 		return err
 	}
 
+	return RemoveFromStorage(cfg, repo, fs, id)
+}
+
+func RemoveFromStorage(cfg config.GlobalConfig, repo *git.Repository, fs billy.Filesystem, id string) error {
 	infraJson, err := storage.ReadInfraDb(fs)
 	if err != nil {
 		return err

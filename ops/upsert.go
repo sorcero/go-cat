@@ -1,6 +1,8 @@
 package ops
 
 import (
+	"github.com/go-git/go-billy/v5"
+	"github.com/go-git/go-git/v5"
 	"gitlab.com/sorcero/community/go-cat/config"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
 	"gitlab.com/sorcero/community/go-cat/parser"
@@ -15,7 +17,14 @@ func Upsert(cfg config.GlobalConfig, infra *infrastructure.Metadata) error {
 	if err != nil {
 		return err
 	}
+	return UpsertFromStorage(cfg, repo, fs, infra)
+}
 
+// UpsertFromStorage  parses the provided argument storage for infrastructure
+// adds the infrastructure metadata
+// and pushes the repository back. All processes happen within an im-memory
+// git storage system to minimize moving parts
+func UpsertFromStorage(cfg config.GlobalConfig, repo *git.Repository, fs billy.Filesystem, infra *infrastructure.Metadata) error {
 	infraJson, err := storage.ReadInfraDb(fs)
 	if err != nil {
 		return err

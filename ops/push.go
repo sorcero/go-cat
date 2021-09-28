@@ -3,6 +3,7 @@ package ops
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/go-git/go-billy/v5"
 	"github.com/go-git/go-git/v5"
 	"gitlab.com/sorcero/community/go-cat/config"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
@@ -20,16 +21,6 @@ func Push(cfg config.GlobalConfig) error {
 	if err != nil {
 		return err
 	}
-	infraJson, err := storage.ReadInfraDb(fs)
-	if err != nil {
-		return err
-	}
-
-	infraMeta := &infrastructure.MetadataGroup{}
-	err = json.Unmarshal(infraJson, infraMeta)
-	if err != nil {
-		return err
-	}
 
 	infraMetaQueue := &infrastructure.MetadataGroup{}
 	if helpers.CheckFileExists(meta.QueueDbName) {
@@ -41,6 +32,22 @@ func Push(cfg config.GlobalConfig) error {
 		if err != nil {
 			return err
 		}
+	}
+
+	return PushFromStorage(repo, fs, infraMetaQueue, cfg)
+}
+
+
+func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *infrastructure.MetadataGroup, cfg config.GlobalConfig) error {
+	infraJson, err := storage.ReadInfraDb(fs)
+	if err != nil {
+		return err
+	}
+
+	infraMeta := &infrastructure.MetadataGroup{}
+	err = json.Unmarshal(infraJson, infraMeta)
+	if err != nil {
+		return err
 	}
 
 	logger.Info("Adding infrastructure")

@@ -7,7 +7,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/urfave/cli/v2"
 	"gitlab.com/sorcero/community/go-cat/meta"
 	"log"
@@ -16,9 +15,9 @@ import (
 
 func main() {
 	gitFlags := []cli.Flag{
-		&cli.StringFlag{Name: "git.url", Usage: "URL to the git repository", EnvVars: []string{fmt.Sprintf("%s_GIT_URL", meta.EnvVarPrefix)}},
-		&cli.StringFlag{Name: "git.username", Usage: "Username, if the Git repository requires HTTP Auth", EnvVars: []string{fmt.Sprintf("%s_GIT_USERNAME", meta.EnvVarPrefix)}},
-		&cli.StringFlag{Name: "git.password", Usage: "Password, if the Git repository requires HTTP Auth", EnvVars: []string{fmt.Sprintf("%s_GIT_PASSWORD", meta.EnvVarPrefix)}},
+		&cli.StringFlag{Name: "git.url", Usage: "URL to the git repository", EnvVars: []string{meta.GitUrlEnvVar}},
+		&cli.StringFlag{Name: "git.username", Usage: "Username, if the Git repository requires HTTP Auth", EnvVars: []string{meta.GitUsernameEnvVar}},
+		&cli.StringFlag{Name: "git.password", Usage: "Password, if the Git repository requires HTTP Auth", EnvVars: []string{meta.GitPasswordEnvVar}},
 	}
 	infraFlags := []cli.Flag{
 		&cli.StringFlag{Name: "name", Usage: "Name of the service or endpoint"},

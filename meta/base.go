@@ -6,8 +6,19 @@
 
 package meta
 
+import "fmt"
+
 const (
 	AppName      = "go-cat"
 	EnvVarPrefix = "GO_CAT"
 	QueueDbName  = ".go-cat.queue.db.json"
+)
+
+var (
+	// env vars
+
+	GitUrlEnvVar = fmt.Sprintf("%s_GIT_URL", EnvVarPrefix)
+	GitUsernameEnvVar = fmt.Sprintf("%s_GIT_USERNAME", EnvVarPrefix)
+	GitPasswordEnvVar = fmt.Sprintf("%s_GIT_PASSWORD", EnvVarPrefix)
+
 )
