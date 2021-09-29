@@ -1,5 +1,7 @@
 go-cat
 ======
+[![Go Reference](https://pkg.go.dev/badge/gitlab.com/sorcero/community/go-cat.svg)](https://pkg.go.dev/gitlab.com/sorcero/community/go-cat)
+
 `go-cat` is a Go command line tool which helps to keep a track
 of infrastructure across multiple clouds in a single git repository.
 It helps to add multiple components with their API endpoints, with the 
