@@ -7,10 +7,11 @@
 package main
 
 import (
-	"github.com/urfave/cli/v2"
-	"gitlab.com/sorcero/community/go-cat/meta"
 	"log"
 	"os"
+
+	"github.com/urfave/cli/v2"
+	"gitlab.com/sorcero/community/go-cat/meta"
 )
 
 func main() {
@@ -59,7 +60,8 @@ func main() {
 				Usage:  "Read the infra.json file to stdout",
 				Action: catInfrastructureCliContext,
 
-				Flags: gitFlags,
+				Flags: append(gitFlags,
+					[]cli.Flag{&cli.BoolFlag{Name: "deployment-link", Aliases: []string{"d"}, Usage: "Output only the deployment link"}}...),
 			},
 			{
 				Name:   "render",

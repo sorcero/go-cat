@@ -2,19 +2,28 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io/ioutil"
+
 	"github.com/urfave/cli/v2"
 	"gitlab.com/sorcero/community/go-cat/config"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
 	"gitlab.com/sorcero/community/go-cat/ops"
 	"gitlab.com/sorcero/community/go-cat/parser"
-	"io/ioutil"
 )
 
 func catInfrastructureCliContext(context *cli.Context) error {
 	infra, err := ops.Cat(config.NewGlobalConfigFromCliContext(context), context.Args().First())
 	if err != nil {
 		return err
+	}
+	if context.Bool("deployment-link") {
+		if len(infra) != 1 {
+			return errors.New("cannot fetch deployment link for multiple infrastructure. try again without wildcards")
+		}
+		fmt.Println(infra[0].DeploymentLink)
+		return nil
 	}
 
 	jsonData, err := json.Marshal(infra)
