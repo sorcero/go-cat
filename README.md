@@ -2,13 +2,13 @@ go-cat
 ======
 [![Go Reference](https://pkg.go.dev/badge/gitlab.com/sorcero/community/go-cat.svg)](https://pkg.go.dev/gitlab.com/sorcero/community/go-cat)
 
-`go-cat` is a Go command line tool which helps to keep a track
+`go-cat` is a Go command line tool which helps keep track
 of infrastructure across multiple clouds in a single git repository.
-It helps to add multiple components with their API endpoints, with the 
-time it was last deployed on, and the commit SHA. This makes tracking
+It helps manage multiple components with their API endpoints, with the 
+time they were last deployed on, and the commit SHA. This makes tracking
 huge infrastructure trees easier on the long run.
 
-The project is in early alpha, and under active development.
+The project is in early alpha and under active development.
 
 Installation ✨
 ---------------
@@ -77,19 +77,14 @@ go-cat remove --id '.*/api'
 go-cat remove --id 'gcp/.*/subsystem/component'
 ```
 
-Code Quality 🔍
-------------
+Contributing 🔍
+---------------
 Make sure you adhere to Go formatting guidelines when
 contributing to this repository
 
 ```bash
 go fmt
 ```
-
-Why go? 🐭
-----------
-Because, its just one binary, and hence a happier DevOps Engineer.
-Read more [here](https://medium.com/@pavanbelagatti/go-lang-devops-a-match-made-in-heaven-a24d5de45e26)
 
 License ⚖️
 -----------
