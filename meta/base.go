@@ -17,8 +17,7 @@ const (
 var (
 	// env vars
 
-	GitUrlEnvVar = fmt.Sprintf("%s_GIT_URL", EnvVarPrefix)
+	GitUrlEnvVar      = fmt.Sprintf("%s_GIT_URL", EnvVarPrefix)
 	GitUsernameEnvVar = fmt.Sprintf("%s_GIT_USERNAME", EnvVarPrefix)
 	GitPasswordEnvVar = fmt.Sprintf("%s_GIT_PASSWORD", EnvVarPrefix)
-
 )

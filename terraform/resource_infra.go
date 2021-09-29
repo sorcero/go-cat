@@ -13,44 +13,44 @@ func resourceInfra() *schema.Resource {
 	return &schema.Resource{
 		Schema: map[string]*schema.Schema{
 			"name": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Required: true,
 			},
 			"cloud": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Required: true,
 			},
 			"cloud_project_id": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"deployment_link": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"monitoring_link": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"subsystem": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"type": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"version": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"commit_sha": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 		},
 		CreateContext: resourceInfraCreate,
-		ReadContext: resourceInfraRead,
+		ReadContext:   resourceInfraRead,
 		DeleteContext: resourceInfraDelete,
 		UpdateContext: resourceInfraUpdate,
 	}
@@ -73,7 +73,6 @@ func resourceInfraCreate(ctx context.Context, d *schema.ResourceData, m interfac
 	d.SetId(infra.GetId())
 	return diags
 }
-
 
 func resourceInfraRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c, ok := m.(ops.GoCatContext)
@@ -101,7 +100,6 @@ func resourceInfraRead(ctx context.Context, d *schema.ResourceData, m interface{
 	d.SetId(infra.GetId())
 	return diags
 }
-
 
 func resourceInfraDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c, ok := m.(ops.GoCatContext)

@@ -17,7 +17,9 @@ func Cat(cfg config.GlobalConfig, args string) ([]*infrastructure.Metadata, erro
 	}
 
 	data, err := CatFromStorage(fs, args)
-	if err != nil { return nil, err }
+	if err != nil {
+		return nil, err
+	}
 
 	return data, nil
 
@@ -29,7 +31,6 @@ func CatFromStorage(fs billy.Filesystem, args string) ([]*infrastructure.Metadat
 	if err != nil {
 		return nil, err
 	}
-
 
 	infraMeta := &infrastructure.MetadataGroup{}
 	err = json.Unmarshal(infraJson, infraMeta)

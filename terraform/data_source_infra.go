@@ -7,7 +7,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"gitlab.com/sorcero/community/go-cat/ops"
-
 )
 
 func dataSourceInfraRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
@@ -31,30 +30,33 @@ func dataSourceInfraRead(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	err = d.Set("deployment_link", metadata[0].DeploymentLink)
-	if err != nil { return diag.FromErr(err)}
+	if err != nil {
+		return diag.FromErr(err)
+	}
 	err = d.Set("commit_sha", metadata[0].CommitSha)
-	if err != nil { return diag.FromErr(err)}
+	if err != nil {
+		return diag.FromErr(err)
+	}
 
 	d.SetId(id)
 
 	return diags
 }
 
-
 func dataSourceInfra() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceInfraRead,
 		Schema: map[string]*schema.Schema{
 			"id": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Required: true,
 			},
 			"commit_sha": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"deployment_link": {
-				Type: schema.TypeString,
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 		},

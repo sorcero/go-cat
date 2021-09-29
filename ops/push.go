@@ -37,7 +37,6 @@ func Push(cfg config.GlobalConfig) error {
 	return PushFromStorage(repo, fs, infraMetaQueue, cfg)
 }
 
-
 func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *infrastructure.MetadataGroup, cfg config.GlobalConfig) error {
 	infraJson, err := storage.ReadInfraDb(fs)
 	if err != nil {

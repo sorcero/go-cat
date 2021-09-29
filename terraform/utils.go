@@ -19,7 +19,6 @@ func safeGet(d *schema.ResourceData, key string) string {
 	return v
 }
 
-
 func NewInfraFromSchemaResourceData(d *schema.ResourceData) *infrastructure.Metadata {
 	infra := &infrastructure.Metadata{
 		Name:           safeGet(d, "name"),

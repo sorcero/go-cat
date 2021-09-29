@@ -7,7 +7,7 @@ import (
 )
 
 type GoCatContext struct {
-	Repo *git.Repository
+	Repo    *git.Repository
 	Storage billy.Filesystem
-	Config config.GlobalConfig
+	Config  config.GlobalConfig
 }
