@@ -24,6 +24,13 @@ var googleInfrastructureMetadata = Metadata{
 			},
 		},
 		{
+			Id:   "compute.googleapis.com",
+			Name: "Google Compute Instance",
+			GetMonitoringLink: func(m infrastructure.Metadata) string {
+				return ""
+			},
+		},
+		{
 			Id:   "container.googleapis.com/apps/v1",
 			Name: "GKE Deployment",
 			GetMonitoringLink: func(m infrastructure.Metadata) string {
