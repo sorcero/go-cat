@@ -27,7 +27,7 @@ func getInfraMetaFromCloud(infra infrastructure.Metadata) *TypeMetadata {
 	return nil
 }
 
-func GetInfraMonitoringLink(infra infrastructure.Metadata) string {
+func GetInfraCloudMonitoringLink(infra infrastructure.Metadata) string {
 	cloudMeta := getInfraMetaFromCloud(infra)
 	if cloudMeta == nil {
 		return ""
@@ -41,4 +41,15 @@ func GetInfraType(infra infrastructure.Metadata) string {
 		return ""
 	}
 	return cloudMeta.Name
+}
+
+func GetInfraAdditionalMonitoringLink(infra infrastructure.Metadata) string {
+	m, ok := infra.Parameters["monitoring"].(string)
+	if !ok {
+		return ""
+	}
+	if m != "" {
+		return m
+	}
+	return ""
 }

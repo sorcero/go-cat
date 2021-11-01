@@ -42,6 +42,9 @@ type Metadata struct {
 	// Type is the type of infrastructure on which it was deployed on, eg: run.googleapis.com, kubernetes
 	Type string `json:"infra_type,omitempty"`
 
+	// Parameters is the additional optional parameters
+	Parameters map[string]interface{} `json:"parameters,omitempty"`
+
 	// MonitoringLink helps to specify the link to monitoring, for example prometheus dashboard, etc.
 	MonitoringLink string `json:"monitoring_link,omitempty"`
 

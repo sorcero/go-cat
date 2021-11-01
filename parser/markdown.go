@@ -69,10 +69,14 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 				t.SetContent(i, 4, infra.DeployedOn.Format("2006-01-02 15:04:05 -0700 MST"))
 
 				// get monitoring links, and only show them if we support monitoring
-				monitoringLinks := infraclouds.GetInfraMonitoringLink(*infra)
+				monitoringLinks := infraclouds.GetInfraCloudMonitoringLink(*infra)
 				links := ""
 				if monitoringLinks != "" {
 					links = fmt.Sprintf("[(Logs 🔗)](%s)", monitoringLinks)
+				}
+				additionalMonitoringLinks := infraclouds.GetInfraAdditionalMonitoringLink(*infra)
+				if additionalMonitoringLinks != "" {
+					links += fmt.Sprintf("[(Logs 🔗)](%s)", additionalMonitoringLinks)
 				}
 
 				t.SetContent(i, 5, fmt.Sprintf("%s<br>%s", infraclouds.GetInfraType(*infra), links))

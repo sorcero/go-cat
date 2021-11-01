@@ -28,6 +28,7 @@ func main() {
 		&cli.StringFlag{Name: "cloud-project-id", Usage: "A unique identifier of the project / environment in which the service is deployed"},
 		&cli.StringFlag{Name: "subsystem", Usage: "Name of the parent project, to which the child service belongs to"},
 		&cli.StringFlag{Name: "deployment-link", Usage: "The HTTP URL or access endpoint of the API or service"},
+		&cli.StringFlag{Name: "parameters", Usage: "Additional parameters"},
 	}
 	app := &cli.App{
 		Name:  "go-cat",
