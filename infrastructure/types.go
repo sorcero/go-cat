@@ -48,8 +48,12 @@ type Metadata struct {
 	// MonitoringLink helps to specify the link to monitoring, for example prometheus dashboard, etc.
 	MonitoringLink string `json:"monitoring_link,omitempty"`
 
-	// DeploymentLink specifies the link to deployment, if it is HTTP API endpoint. Optional.
+	// DeploymentLinks specifies the link to deployment, if it is HTTP API endpoint. Optional.
+	// Deprecated, use DeploymentLinks instead
 	DeploymentLink string `json:"deployment_link,omitempty"`
+
+	// DeploymentLinks specifies the link to deployment, if it is HTTP API endpoint. Optional.
+	DeploymentLinks []string `json:"deployment_links,omitempty"`
 }
 
 // GetId returns a unique identification id of the infrastructure

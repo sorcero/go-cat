@@ -33,6 +33,10 @@ func dataSourceInfraRead(ctx context.Context, d *schema.ResourceData, m interfac
 	if err != nil {
 		return diag.FromErr(err)
 	}
+	err = d.Set("deployment_links", metadata[0].DeploymentLinks)
+	if err != nil {
+		return diag.FromErr(err)
+	}
 	err = d.Set("commit_sha", metadata[0].CommitSha)
 	if err != nil {
 		return diag.FromErr(err)
@@ -58,6 +62,11 @@ func dataSourceInfra() *schema.Resource {
 			"deployment_link": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"deployment_links": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{Type: schema.TypeString},
 			},
 		},
 	}

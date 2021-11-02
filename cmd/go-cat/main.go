@@ -28,6 +28,7 @@ func main() {
 		&cli.StringFlag{Name: "cloud-project-id", Usage: "A unique identifier of the project / environment in which the service is deployed"},
 		&cli.StringFlag{Name: "subsystem", Usage: "Name of the parent project, to which the child service belongs to"},
 		&cli.StringFlag{Name: "deployment-link", Usage: "The HTTP URL or access endpoint of the API or service"},
+		&cli.StringFlag{Name: "deployment-links", Usage: "Multiple HTTP URLs or access endpoint of the API or service, separated by comma"},
 		&cli.StringFlag{Name: "parameters", Usage: "Additional parameters"},
 	}
 	app := &cli.App{
@@ -62,7 +63,10 @@ func main() {
 				Action: catInfrastructureCliContext,
 
 				Flags: append(gitFlags,
-					[]cli.Flag{&cli.BoolFlag{Name: "deployment-link", Aliases: []string{"d"}, Usage: "Output only the deployment link"}}...),
+					[]cli.Flag{
+						&cli.BoolFlag{Name: "deployment-link", Aliases: []string{"d"}, Usage: "Output only the deployment link"},
+						&cli.IntFlag{Name: "deployment-link-index", Aliases: []string{"i"}, Usage: "Output the ith deployment link, defaults to 0", Value: 0},
+					}...),
 			},
 			{
 				Name:   "render",

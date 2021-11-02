@@ -26,6 +26,12 @@ func parseCliParameters(p string) map[string]interface{} {
 
 }
 
+
+func parseDeploymentLinks(p string) []string {
+	return strings.Split(p, ",")
+}
+
+
 // newInfrastructureFromCliContext converts cli.Context to Infrastructure
 func newInfrastructureFromCliContext(context *cli.Context) *infrastructure.Metadata {
 	infra := &infrastructure.Metadata{
@@ -38,6 +44,7 @@ func newInfrastructureFromCliContext(context *cli.Context) *infrastructure.Metad
 		Type:           context.String("type"),
 		MonitoringLink: context.String("monitoring-link"),
 		DeploymentLink: context.String("deployment-link"),
+		DeploymentLinks: parseDeploymentLinks(context.String("deployment-links")),
 		Parameters:     parseCliParameters(context.String("parameters")),
 	}
 

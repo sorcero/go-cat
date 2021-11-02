@@ -12,7 +12,11 @@ import (
 	"github.com/atsushinee/go-markdown-generator/doc"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
 	infraclouds "gitlab.com/sorcero/community/go-cat/infrastructure/clouds"
+	"gitlab.com/sorcero/community/go-cat/logging"
+	"strings"
 )
+
+var logger = logging.GetLogger()
 
 // InfrastructureMetaToString converts the metadata json (by default, infra.json) to a Markdown file
 // with a table
@@ -80,7 +84,16 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 				}
 
 				t.SetContent(i, 5, fmt.Sprintf("%s<br>%s", infraclouds.GetInfraType(*infra), links))
-				t.SetContent(i, 6, infra.DeploymentLink)
+				if infra.DeploymentLink != "" {
+					logger.Warn("infra.DeploymentLink is deprecated and will be removed in a future version, use infra.DeploymentLinks instead.")
+					t.SetContent(i, 6, infra.DeploymentLink)
+				} else {
+					var deploymentLinksEnumerated []string
+					for link := range infra.DeploymentLinks {
+						deploymentLinksEnumerated = append(deploymentLinksEnumerated, fmt.Sprintf("%d. %s", link + 1, infra.DeploymentLinks[link]))
+					}
+					t.SetContent(i, 6, strings.Join(deploymentLinksEnumerated, "<br>"))
+				}
 			}
 			book.WriteTable(t)
 		}

@@ -11,6 +11,21 @@ func must(err error) {
 	}
 }
 
+func safeListGet(d *schema.ResourceData, key string) []string {
+	v := d.Get(key).([]interface{})
+	var s []string
+	for i := range v {
+		s = append(s, v[i].(string))
+	}
+	return s
+}
+
+
+func safeMapGet(d *schema.ResourceData, key string) map[string]interface{} {
+	v := d.Get(key).(map[string]interface{})
+	return v
+}
+
 func safeGet(d *schema.ResourceData, key string) string {
 	v, ok := d.Get(key).(string)
 	if !ok {
@@ -30,6 +45,8 @@ func NewInfraFromSchemaResourceData(d *schema.ResourceData) *infrastructure.Meta
 		Type:           safeGet(d, "type"),
 		MonitoringLink: safeGet(d, "monitoring_link"),
 		DeploymentLink: safeGet(d, "deployment_link"),
+		DeploymentLinks: safeListGet(d, "deployment_links"),
+		Parameters: safeMapGet(d, "parameters"),
 	}
 	return infra
 }
@@ -43,6 +60,7 @@ func NewSchemaResourceDataFromInfra(d *infrastructure.Metadata, s *schema.Resour
 	must(s.Set("type", d.Type))
 	must(s.Set("subsystem", d.Subsystem))
 	must(s.Set("deployment_link", d.DeploymentLink))
-
+	must(s.Set("deployment_links", d.DeploymentLinks))
+	must(s.Set("parameters", d.Parameters))
 	return s
 }
