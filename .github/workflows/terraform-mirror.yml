@@ -1,0 +1,20 @@
+name: Terraform Provider Mirror
+on:
+  push:
+    branches:
+      - main
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          repository-name: sorcero/terraform-provider-go-cat
+          branch: main
+          folder: cmd/terraform-provider-go-cat
+          ssh-key: ${{ secrets.TERRAFORM_PROVIDER_DEPLOY_KEY }}
+          clean: false
