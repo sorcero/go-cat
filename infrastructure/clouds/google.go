@@ -18,22 +18,40 @@ var googleInfrastructureMetadata = Metadata{
 		{
 			Id:   "run.googleapis.com",
 			Name: "Google Cloud Run",
-			GetMonitoringLink: func(m infrastructure.Metadata) string {
+			GetLoggingLink: func(m infrastructure.Metadata) string {
 				return fmt.Sprintf(
 					"https://console.cloud.google.com/run/detail/us-east1/%s/logs?project=%s", m.Name, m.CloudProjectId)
+			},
+			GetMonitoringLink: func(m infrastructure.Metadata) string {
+				return fmt.Sprintf(
+					"https://console.cloud.google.com/run/detail/us-east1/%s/metrics?project=%s", m.Name, m.CloudProjectId)
+			},
+		},
+		{
+			Id: "redis.googleapis.com",
+			Name: "Memorystore (Redis)",
+			GetLoggingLink: func(m infrastructure.Metadata) string {
+				return ""
+			},
+			GetMonitoringLink: func(m infrastructure.Metadata) string {
+				return fmt.Sprintf(
+					"https://console.cloud.google.com/memorystore/redis/locations/us-east1/instances/%s/details?project=%s", m.Name, m.CloudProjectId)
 			},
 		},
 		{
 			Id:   "compute.googleapis.com",
 			Name: "Google Compute Instance",
-			GetMonitoringLink: func(m infrastructure.Metadata) string {
+			GetLoggingLink: func(m infrastructure.Metadata) string {
 				return ""
+			},
+			GetMonitoringLink: func(m infrastructure.Metadata) string {
+				return ""	
 			},
 		},
 		{
 			Id:   "container.googleapis.com/apps/v1",
 			Name: "GKE Deployment",
-			GetMonitoringLink: func(m infrastructure.Metadata) string {
+			GetLoggingLink: func(m infrastructure.Metadata) string {
 				cluster, ok := m.Parameters["container.googleapis.com"].(string)
 				if !ok {
 					return ""
@@ -45,6 +63,18 @@ var googleInfrastructureMetadata = Metadata{
 				}
 				return fmt.Sprintf(
 					"https://console.cloud.google.com/kubernetes/deployment/us-east1/%s/%s/%s/logs?project=%s", cluster, namespace, m.Name, m.CloudProjectId)
+			},
+			GetMonitoringLink: func(m infrastructure.Metadata) string {
+				cluster, ok := m.Parameters["container.googleapis.com"].(string)
+				if !ok {
+					return ""
+				}
+				namespace, ok := m.Parameters["container.googleapis.com/apps/v1/namespaces"].(string)
+				if !ok {
+					// the default GKE namespace is default.
+					namespace = "default"
+				}
+				return fmt.Sprintf("https://console.cloud.google.com/kubernetes/deployment/us-east1/%s/%s/%s/overview?project=%s", cluster, namespace, m.Name, m.CloudProjectId)
 			},
 		},
 	},

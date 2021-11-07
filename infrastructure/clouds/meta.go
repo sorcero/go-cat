@@ -27,6 +27,14 @@ func getInfraMetaFromCloud(infra infrastructure.Metadata) *TypeMetadata {
 	return nil
 }
 
+func GetInfraCloudLoggingLink(infra infrastructure.Metadata) string {
+	cloudMeta := getInfraMetaFromCloud(infra)
+	if cloudMeta == nil {
+		return ""
+	}
+	return cloudMeta.GetLoggingLink(infra)
+}
+
 func GetInfraCloudMonitoringLink(infra infrastructure.Metadata) string {
 	cloudMeta := getInfraMetaFromCloud(infra)
 	if cloudMeta == nil {

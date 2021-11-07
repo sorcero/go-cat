@@ -72,18 +72,22 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 				t.SetContent(i, 3, fmt.Sprintf("`%s`", infra.CommitSha))
 				t.SetContent(i, 4, infra.DeployedOn.Format("2006-01-02 15:04:05 -0700 MST"))
 
-				// get monitoring links, and only show them if we support monitoring
+				// get logging and monitoring links, and only show them if we support monitoring
+				links := []string{}
 				monitoringLinks := infraclouds.GetInfraCloudMonitoringLink(*infra)
-				links := ""
 				if monitoringLinks != "" {
-					links = fmt.Sprintf("[(Logs 🔗)](%s)", monitoringLinks)
+					links = append(links, fmt.Sprintf("[(Monitoring 🔗)](%s)", monitoringLinks))
 				}
 				additionalMonitoringLinks := infraclouds.GetInfraAdditionalMonitoringLink(*infra)
 				if additionalMonitoringLinks != "" {
-					links += fmt.Sprintf("[(Logs 🔗)](%s)", additionalMonitoringLinks)
+					links = append(links, fmt.Sprintf("[(Logs 🔗)](%s)", additionalMonitoringLinks))
+				}
+				loggingLinks := infraclouds.GetInfraCloudMonitoringLink(*infra)
+				if loggingLinks != "" {
+					links = append(links, fmt.Sprintf("[(Logs 🔗)](%s)", loggingLinks))
 				}
 
-				t.SetContent(i, 5, fmt.Sprintf("%s<br>%s", infraclouds.GetInfraType(*infra), links))
+				t.SetContent(i, 5, fmt.Sprintf("%s<br>%s", infraclouds.GetInfraType(*infra), strings.Join(links, "<br>")))
 				if infra.DeploymentLink != "" {
 					logger.Warn("infra.DeploymentLink is deprecated and will be removed in a future version, use infra.DeploymentLinks instead.")
 					t.SetContent(i, 6, infra.DeploymentLink)
