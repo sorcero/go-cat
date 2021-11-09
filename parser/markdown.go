@@ -55,6 +55,9 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 		for project, components := range projects {
 			book.WriteTitle(project, 4).WriteLines(2)
 
+			book.Write("<details>").WriteLines(2)
+			book.Write("<summary>Click to expand</summary>").WriteLines(2)
+
 			t := doc.NewTable(len(components), 7)
 			t.SetTitle(0, "Component")
 			t.SetTitle(1, "Subsystem")
@@ -99,7 +102,8 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 					t.SetContent(i, 6, strings.Join(deploymentLinksEnumerated, "<br>"))
 				}
 			}
-			book.WriteTable(t)
+			book.WriteTable(t).WriteLines(2)
+			book.Write("</details>").WriteLines(2)
 		}
 	}
 	return book.String(), jsonData, nil
