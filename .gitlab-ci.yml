@@ -24,6 +24,24 @@ format:
     - go fmt $(go list ./... | grep -v /vendor/)
     - go vet $(go list ./... | grep -v /vendor/)
 
+qa:
+  stage: test
+  script:
+    - cd cmd/go-cat
+    - go build .
+    - git config --global user.email "you@example.com"
+    - git config --global user.name "Your Name"
+    - mkdir -p /tmp/repo
+    - mkdir -p /tmp/repo-bare
+    - git -C /tmp/repo-bare init --bare
+    - git -C /tmp/repo init
+    - touch /tmp/repo/README.md
+    - git -C /tmp/repo add /tmp/repo/README.md
+    - git -C /tmp/repo commit -m "initial commit"
+    - git -C /tmp/repo remote add origin file:///tmp/repo-bare
+    - git -C /tmp/repo push -u origin master
+    - GO_CAT_GIT_URL="/tmp/repo-bare" ./go-cat upsert --name="componentA" --commit-sha="aaaaa" --cloud="A" --cloud-project-id="alphabets" --subsystem="sli" --type="null" --deployment-links="https://example.org"
+
 compile:
   stage: build
   script:
