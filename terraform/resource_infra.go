@@ -15,14 +15,17 @@ func resourceInfra() *schema.Resource {
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"cloud": {
 				Type:     schema.TypeString,
 				Required: true,
+				ForceNew: true,
 			},
 			"cloud_project_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"deployment_link": {
 				Type:     schema.TypeString,
@@ -40,6 +43,7 @@ func resourceInfra() *schema.Resource {
 			"subsystem": {
 				Type:     schema.TypeString,
 				Optional: true,
+				ForceNew: true,
 			},
 			"type": {
 				Type:     schema.TypeString,
