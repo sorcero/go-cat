@@ -17,6 +17,6 @@ type Metadata struct {
 type TypeMetadata struct {
 	Id                string `json:"id"`
 	Name              string `json:"name"`
-	GetLoggingLink func(metadata infrastructure.Metadata) string
+	GetLoggingLink    func(metadata infrastructure.Metadata) string
 	GetMonitoringLink func(metadata infrastructure.Metadata) string
 }

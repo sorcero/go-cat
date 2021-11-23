@@ -33,7 +33,7 @@ func resourceInfra() *schema.Resource {
 			},
 			"deployment_links": {
 				Type:     schema.TypeList,
-				Elem: 	&schema.Schema{Type: schema.TypeString},
+				Elem:     &schema.Schema{Type: schema.TypeString},
 				Optional: true,
 			},
 			"monitoring_link": {
@@ -56,7 +56,7 @@ func resourceInfra() *schema.Resource {
 			"parameters": {
 				Type:     schema.TypeMap,
 				Optional: true,
-				Elem: 	&schema.Schema{Type: schema.TypeString},
+				Elem:     &schema.Schema{Type: schema.TypeString},
 			},
 			"commit_sha": {
 				Type:     schema.TypeString,

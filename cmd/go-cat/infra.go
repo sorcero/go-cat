@@ -26,26 +26,24 @@ func parseCliParameters(p string) map[string]interface{} {
 
 }
 
-
 func parseDeploymentLinks(p string) []string {
 	return strings.Split(p, ",")
 }
 
-
 // newInfrastructureFromCliContext converts cli.Context to Infrastructure
 func newInfrastructureFromCliContext(context *cli.Context) *infrastructure.Metadata {
 	infra := &infrastructure.Metadata{
-		Name:           context.String("name"),
-		CommitSha:      context.String("commit-sha"),
-		Version:        context.String("version"),
-		Cloud:          context.String("cloud"),
-		CloudProjectId: context.String("cloud-project-id"),
-		Subsystem:      context.String("subsystem"),
-		Type:           context.String("type"),
-		MonitoringLink: context.String("monitoring-link"),
-		DeploymentLink: context.String("deployment-link"),
+		Name:            context.String("name"),
+		CommitSha:       context.String("commit-sha"),
+		Version:         context.String("version"),
+		Cloud:           context.String("cloud"),
+		CloudProjectId:  context.String("cloud-project-id"),
+		Subsystem:       context.String("subsystem"),
+		Type:            context.String("type"),
+		MonitoringLink:  context.String("monitoring-link"),
+		DeploymentLink:  context.String("deployment-link"),
 		DeploymentLinks: parseDeploymentLinks(context.String("deployment-links")),
-		Parameters:     parseCliParameters(context.String("parameters")),
+		Parameters:      parseCliParameters(context.String("parameters")),
 	}
 
 	return infra

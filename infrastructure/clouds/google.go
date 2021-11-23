@@ -29,7 +29,7 @@ var googleInfrastructureMetadata = Metadata{
 			},
 		},
 		{
-			Id: "redis.googleapis.com",
+			Id:   "redis.googleapis.com",
 			Name: "Memorystore (Redis)",
 			GetLoggingLink: func(m infrastructure.Metadata) string {
 				return ""
@@ -46,7 +46,7 @@ var googleInfrastructureMetadata = Metadata{
 				return ""
 			},
 			GetMonitoringLink: func(m infrastructure.Metadata) string {
-				return ""	
+				return ""
 			},
 		},
 		{
@@ -107,7 +107,6 @@ var googleInfrastructureMetadata = Metadata{
 				if ok && overrideRegion.(string) != "" {
 					region = overrideRegion.(string)
 				}
-
 
 				cluster, ok := m.Parameters["container.googleapis.com"].(string)
 				if !ok {

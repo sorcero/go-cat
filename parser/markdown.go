@@ -97,7 +97,7 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 				} else {
 					var deploymentLinksEnumerated []string
 					for link := range infra.DeploymentLinks {
-						deploymentLinksEnumerated = append(deploymentLinksEnumerated, fmt.Sprintf("%d. %s", link + 1, infra.DeploymentLinks[link]))
+						deploymentLinksEnumerated = append(deploymentLinksEnumerated, fmt.Sprintf("%d. %s", link+1, infra.DeploymentLinks[link]))
 					}
 					t.SetContent(i, 6, strings.Join(deploymentLinksEnumerated, "<br>"))
 				}

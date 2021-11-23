@@ -20,7 +20,6 @@ func safeListGet(d *schema.ResourceData, key string) []string {
 	return s
 }
 
-
 func safeMapGet(d *schema.ResourceData, key string) map[string]interface{} {
 	v := d.Get(key).(map[string]interface{})
 	return v
@@ -36,17 +35,17 @@ func safeGet(d *schema.ResourceData, key string) string {
 
 func NewInfraFromSchemaResourceData(d *schema.ResourceData) *infrastructure.Metadata {
 	infra := &infrastructure.Metadata{
-		Name:           safeGet(d, "name"),
-		CommitSha:      safeGet(d, "commit_sha"),
-		Version:        safeGet(d, "version"),
-		Cloud:          safeGet(d, "cloud"),
-		CloudProjectId: safeGet(d, "cloud_project_id"),
-		Subsystem:      safeGet(d, "subsystem"),
-		Type:           safeGet(d, "type"),
-		MonitoringLink: safeGet(d, "monitoring_link"),
-		DeploymentLink: safeGet(d, "deployment_link"),
+		Name:            safeGet(d, "name"),
+		CommitSha:       safeGet(d, "commit_sha"),
+		Version:         safeGet(d, "version"),
+		Cloud:           safeGet(d, "cloud"),
+		CloudProjectId:  safeGet(d, "cloud_project_id"),
+		Subsystem:       safeGet(d, "subsystem"),
+		Type:            safeGet(d, "type"),
+		MonitoringLink:  safeGet(d, "monitoring_link"),
+		DeploymentLink:  safeGet(d, "deployment_link"),
 		DeploymentLinks: safeListGet(d, "deployment_links"),
-		Parameters: safeMapGet(d, "parameters"),
+		Parameters:      safeMapGet(d, "parameters"),
 	}
 	return infra
 }

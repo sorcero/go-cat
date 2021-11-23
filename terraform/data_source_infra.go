@@ -66,7 +66,7 @@ func dataSourceInfra() *schema.Resource {
 			"deployment_links": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem: &schema.Schema{Type: schema.TypeString},
+				Elem:     &schema.Schema{Type: schema.TypeString},
 			},
 		},
 	}
