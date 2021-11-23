@@ -85,7 +85,7 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 				if additionalMonitoringLinks != "" {
 					links = append(links, fmt.Sprintf("[(Logs 🔗)](%s)", additionalMonitoringLinks))
 				}
-				loggingLinks := infraclouds.GetInfraCloudMonitoringLink(*infra)
+				loggingLinks := infraclouds.GetInfraCloudLoggingLink(*infra)
 				if loggingLinks != "" {
 					links = append(links, fmt.Sprintf("[(Logs 🔗)](%s)", loggingLinks))
 				}
