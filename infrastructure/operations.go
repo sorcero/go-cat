@@ -47,3 +47,43 @@ func (infraMeta *MetadataGroup) Add(infra *Metadata) (*MetadataGroup, error) {
 	infras = append(infras, infra)
 	return &MetadataGroup{Infra: infras, Version: "1", UpdatedAt: time.Now()}, nil
 }
+
+
+// Patch updates InfrastructureMetadata with Infrastructure, duplicate infrastructure
+// is merged with each other, and the final InfrastructureMetadata is returned
+func (infraMeta *MetadataGroup) Patch(infra *Metadata) (*MetadataGroup, error) {
+	infra.DeployedOn = time.Now()
+	infras := infraMeta.Infra
+	for i := range infras {
+		newInfra := infras[i]
+		logger.Info(infra.GetId(), newInfra.GetId())
+		if newInfra.GetId() == infra.GetId() {
+			// we found a match of the same infra, but probably older
+			if infra.Parameters != nil {
+				newInfra.Parameters = infra.Parameters
+			}
+			if infra.MonitoringLink != "" {
+				newInfra.MonitoringLink = infra.MonitoringLink
+			}
+			if infra.DeploymentLinks != nil {
+				newInfra.DeploymentLinks = infra.DeploymentLinks
+			}
+			if infra.DeploymentLink != "" {
+				newInfra.DeploymentLink = infra.DeploymentLink
+			}
+			if infra.CommitSha != "" {
+				newInfra.CommitSha = infra.CommitSha
+			}
+			if infra.Type != "" {
+				newInfra.Type = infra.Type
+			}
+			infras[i] = newInfra
+			logger.Info(newInfra)
+
+			return &MetadataGroup{Infra: infras, Version: "1", UpdatedAt: time.Now()}, nil
+		}
+	}
+	infras = append(infras, infra)
+	return &MetadataGroup{Infra: infras, Version: "1", UpdatedAt: time.Now()}, nil
+}
+

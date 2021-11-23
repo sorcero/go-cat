@@ -93,6 +93,20 @@ func upsertInfrastructureCliContext(context *cli.Context) error {
 	return nil
 }
 
+
+func patchInfrastructureCliContext(context *cli.Context) error {
+	//
+	// cloud -> cloud-project-id -> subsystem -> name
+	i := newInfrastructureFromCliContext(context)
+	i.GetId()
+
+	err := ops.Patch(config.NewGlobalConfigFromCliContext(context), i, context.Args().First())
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func removeInfrastructureCliContext(context *cli.Context) error {
 	id := context.String("id")
 	return ops.Remove(config.NewGlobalConfigFromCliContext(context), id)

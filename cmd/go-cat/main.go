@@ -22,11 +22,12 @@ func main() {
 	}
 	infraFlags := []cli.Flag{
 		&cli.StringFlag{Name: "name", Usage: "Name of the service or endpoint"},
-		&cli.StringFlag{Name: "type", Usage: "Type of infrastructure on which the service is deployed to"},
-		&cli.StringFlag{Name: "commit-sha", Usage: "Deployed Commit SHA"},
 		&cli.StringFlag{Name: "cloud", Usage: "Name of the cloud, example: gcp, aws"},
 		&cli.StringFlag{Name: "cloud-project-id", Usage: "A unique identifier of the project / environment in which the service is deployed"},
 		&cli.StringFlag{Name: "subsystem", Usage: "Name of the parent project, to which the child service belongs to"},
+
+		&cli.StringFlag{Name: "type", Usage: "Type of infrastructure on which the service is deployed to"},
+		&cli.StringFlag{Name: "commit-sha", Usage: "Deployed Commit SHA"},
 		&cli.StringFlag{Name: "deployment-link", Usage: "The HTTP URL or access endpoint of the API or service"},
 		&cli.StringFlag{Name: "deployment-links", Usage: "Multiple HTTP URLs or access endpoint of the API or service, separated by comma"},
 		&cli.StringFlag{Name: "parameters", Usage: "Additional parameters"},
@@ -56,6 +57,13 @@ func main() {
 				Action: pushInfrastructureCliContext,
 
 				Flags: gitFlags,
+			},
+			{
+				Name:   "patch",
+				Usage:  "Patch changes to an individual unit of infrastructure",
+				Action: patchInfrastructureCliContext,
+
+				Flags: append(gitFlags, infraFlags[5:]...),
 			},
 			{
 				Name:   "cat",
