@@ -52,6 +52,12 @@ var googleInfrastructureMetadata = Metadata{
 			Id:   "container.googleapis.com/apps/v1",
 			Name: "GKE Deployment",
 			GetLoggingLink: func(m infrastructure.Metadata) string {
+				name := m.Name
+				overrideName, ok := m.Parameters["container.googleapis.com/apps/v1/metadata.name"]
+				if ok && overrideName != "" {
+					name = overrideName.(string)
+				}
+
 				cluster, ok := m.Parameters["container.googleapis.com"].(string)
 				if !ok {
 					return ""
@@ -62,9 +68,15 @@ var googleInfrastructureMetadata = Metadata{
 					namespace = "default"
 				}
 				return fmt.Sprintf(
-					"https://console.cloud.google.com/kubernetes/deployment/us-east1/%s/%s/%s/logs?project=%s", cluster, namespace, m.Name, m.CloudProjectId)
+					"https://console.cloud.google.com/kubernetes/deployment/us-east1/%s/%s/%s/logs?project=%s", cluster, namespace, name, m.CloudProjectId)
 			},
 			GetMonitoringLink: func(m infrastructure.Metadata) string {
+				name := m.Name
+				overrideName, ok := m.Parameters["container.googleapis.com/apps/v1/metadata.name"]
+				if ok && overrideName != "" {
+					name = overrideName.(string)
+				}
+
 				cluster, ok := m.Parameters["container.googleapis.com"].(string)
 				if !ok {
 					return ""
@@ -74,7 +86,7 @@ var googleInfrastructureMetadata = Metadata{
 					// the default GKE namespace is default.
 					namespace = "default"
 				}
-				return fmt.Sprintf("https://console.cloud.google.com/kubernetes/deployment/us-east1/%s/%s/%s/overview?project=%s", cluster, namespace, m.Name, m.CloudProjectId)
+				return fmt.Sprintf("https://console.cloud.google.com/kubernetes/deployment/us-east1/%s/%s/%s/overview?project=%s", cluster, namespace, name, m.CloudProjectId)
 			},
 		},
 	},
