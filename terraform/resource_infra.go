@@ -2,11 +2,12 @@ package terraform
 
 import (
 	"context"
-	"errors"
 	"fmt"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"gitlab.com/sorcero/community/go-cat/ops"
+	"gitlab.com/sorcero/community/go-cat/storage"
 )
 
 func resourceInfra() *schema.Resource {
@@ -76,10 +77,21 @@ func resourceInfraCreate(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(InvalidConfigError)
 	}
 
+	repo, fs, err := storage.Clone(c.Config)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	c = ops.GoCatContext{
+		Repo:    repo,
+		Storage: fs,
+		Config:  c.Config,
+	}
+
 	var diags diag.Diagnostics
 
 	infra := NewInfraFromSchemaResourceData(d)
-	err := ops.UpsertFromStorage(c.Config, c.Repo, c.Storage, infra)
+	err = ops.UpsertFromStorage(c.Config, c.Repo, c.Storage, infra)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -100,9 +112,9 @@ func resourceInfraRead(ctx context.Context, d *schema.ResourceData, m interface{
 
 	infraGroup, err := ops.CatFromStorage(c.Storage, id)
 	if len(infraGroup) == 0 {
-		return diag.FromErr(errors.New(fmt.Sprintf("no resource with id '%s' exists", id)))
+		return diag.FromErr(fmt.Errorf("no resource with id '%s' exists", id))
 	} else if len(infraGroup) > 1 {
-		return diag.FromErr(errors.New(fmt.Sprintf("more than one resource was returned when '%s' id was requested which is not supported yet", id)))
+		return diag.FromErr(fmt.Errorf("more than one resource was returned when '%s' id was requested which is not supported yet", id))
 	}
 
 	if err != nil {
@@ -116,16 +128,28 @@ func resourceInfraRead(ctx context.Context, d *schema.ResourceData, m interface{
 }
 
 func resourceInfraDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+
 	c, ok := m.(ops.GoCatContext)
 	if !ok {
 		return diag.FromErr(InvalidConfigError)
+	}
+
+	repo, fs, err := storage.Clone(c.Config)
+	if err != nil {
+		return diag.FromErr(err)
+	}
+
+	c = ops.GoCatContext{
+		Repo:    repo,
+		Storage: fs,
+		Config:  c.Config,
 	}
 
 	var diags diag.Diagnostics
 
 	infra := NewInfraFromSchemaResourceData(d)
 	id := infra.GetId()
-	err := ops.RemoveFromStorage(c.Config, c.Repo, c.Storage, infra.GetId())
+	err = ops.RemoveFromStorage(c.Config, c.Repo, c.Storage, infra.GetId())
 	if err != nil {
 		return diag.FromErr(err)
 	}
