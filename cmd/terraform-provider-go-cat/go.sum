@@ -444,8 +444,8 @@ github.com/zclconf/go-cty v1.9.1/go.mod h1:vVKLxnk3puL4qRAv72AO+W99LUD4da90g3uUA
 github.com/zclconf/go-cty v1.10.0 h1:mp9ZXQeIcN8kAwuqorjH+Q+njbJKjLrvB2yIh4q7U+0=
 github.com/zclconf/go-cty v1.10.0/go.mod h1:vVKLxnk3puL4qRAv72AO+W99LUD4da90g3uUAzyuvAk=
 github.com/zclconf/go-cty-debug v0.0.0-20191215020915-b22d67c1ba0b/go.mod h1:ZRKQfBXbGkpdV6QMzT3rU1kSTAnfu1dO8dPKjYprgj8=
-gitlab.com/sorcero/community/go-cat v0.0.8 h1:qNPNUlGEryQsJkvmBfpnI/hk5h+SffUOo1CSH+gC6vY=
-gitlab.com/sorcero/community/go-cat v0.0.8/go.mod h1:MEaq+aUg+XO0u8//nHeNEuKx27y5zfKjJrmQwdVBKHs=
+gitlab.com/sorcero/community/go-cat v0.0.9 h1:03hzKU3bUaTl05sFkENb7vvvjc9isdrUOWH71BL0x50=
+gitlab.com/sorcero/community/go-cat v0.0.9/go.mod h1:MEaq+aUg+XO0u8//nHeNEuKx27y5zfKjJrmQwdVBKHs=
 go.etcd.io/etcd/api/v3 v3.5.0/go.mod h1:cbVKeC6lCfl7j/8jBhAK6aIYO9XOjdptoxU/nLQcPvs=
 go.etcd.io/etcd/client/pkg/v3 v3.5.0/go.mod h1:IJHfcCEKxYu1Os13ZdwCwIUTUVGYTSAM3YSwc9/Ac1g=
 go.etcd.io/etcd/client/v2 v2.305.0/go.mod h1:h9puh54ZTgAKtEbut2oe9P4L/oqKCVB6xsXlzd7alYQ=
