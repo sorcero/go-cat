@@ -2,11 +2,12 @@ package ops
 
 import (
 	"encoding/json"
+	"regexp"
+
 	"github.com/go-git/go-billy/v5"
 	"gitlab.com/sorcero/community/go-cat/config"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
 	"gitlab.com/sorcero/community/go-cat/storage"
-	"regexp"
 )
 
 // Cat gets the infra.json and returns it as bytes
@@ -43,7 +44,7 @@ func CatFromStorage(fs billy.Filesystem, args string) ([]*infrastructure.Metadat
 		data = infraMeta.Infra
 	} else {
 		infras := infraMeta.Infra
-		idRegex, err := regexp.Compile(args)
+		idRegex, err := regexp.Compile(args + "$") // match the end of the string
 		if err != nil {
 			return nil, err
 		}
