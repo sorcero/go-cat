@@ -41,6 +41,10 @@ func dataSourceInfraRead(ctx context.Context, d *schema.ResourceData, m interfac
 	if err != nil {
 		return diag.FromErr(err)
 	}
+	err = d.Set("name", metadata[0].Name)
+	if err != nil {
+		return diag.FromErr(err)
+	}
 
 	d.SetId(id)
 
@@ -54,6 +58,10 @@ func dataSourceInfra() *schema.Resource {
 			"id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"name": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"commit_sha": {
 				Type:     schema.TypeString,
