@@ -41,6 +41,16 @@ func resourceInfra() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"monitoring_links": {
+				Type:     schema.TypeList,
+				Elem:     &schema.Schema{Type: schema.TypeString},
+				Optional: true,
+			},
+			"logging_links": {
+				Type:     schema.TypeList,
+				Elem:     &schema.Schema{Type: schema.TypeString},
+				Optional: true,
+			},
 			"subsystem": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -74,7 +84,7 @@ func resourceInfra() *schema.Resource {
 func resourceInfraCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c, ok := m.(ops.GoCatContext)
 	if !ok {
-		return diag.FromErr(InvalidConfigError)
+		return diag.FromErr(ErrorInvalidConfig)
 	}
 
 	repo, fs, err := storage.Clone(c.Config)
@@ -103,7 +113,7 @@ func resourceInfraCreate(ctx context.Context, d *schema.ResourceData, m interfac
 func resourceInfraRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c, ok := m.(ops.GoCatContext)
 	if !ok {
-		return diag.FromErr(InvalidConfigError)
+		return diag.FromErr(ErrorInvalidConfig)
 	}
 
 	id := d.Id()
@@ -131,7 +141,7 @@ func resourceInfraDelete(ctx context.Context, d *schema.ResourceData, m interfac
 
 	c, ok := m.(ops.GoCatContext)
 	if !ok {
-		return diag.FromErr(InvalidConfigError)
+		return diag.FromErr(ErrorInvalidConfig)
 	}
 
 	repo, fs, err := storage.Clone(c.Config)

@@ -2,7 +2,6 @@ package terraform
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -12,7 +11,7 @@ import (
 func dataSourceInfraRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	c, ok := m.(ops.GoCatContext)
 	if !ok {
-		return diag.FromErr(InvalidConfigError)
+		return diag.FromErr(ErrorInvalidConfig)
 	}
 
 	var diags diag.Diagnostics
@@ -24,9 +23,9 @@ func dataSourceInfraRead(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	if len(metadata) == 0 {
-		return diag.FromErr(errors.New(fmt.Sprintf("no resource with id '%s' exists", id)))
+		return diag.FromErr(fmt.Errorf("no resource with id '%s' exists", id))
 	} else if len(metadata) > 1 {
-		return diag.FromErr(errors.New(fmt.Sprintf("more than one resource was returned when '%s' id was requested which is not supported yet", id)))
+		return diag.FromErr(fmt.Errorf("more than one resource was returned when '%s' id was requested which is not supported yet", id))
 	}
 
 	err = d.Set("deployment_link", metadata[0].DeploymentLink)
