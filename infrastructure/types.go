@@ -26,6 +26,13 @@ type Metadata struct {
 	// Version specifies the deployed version, or branch of git repository, if it uses CI/CD
 	Version string `json:"version"`
 
+	// Branch specifies the branch of the git repository, if it uses CI/CD
+	Branch string `json:"branch,omitempty"`
+
+	// TerraformVersion specifies the version of Terraform used to create the infrastructure
+	// this is only used if terraform provider is used to create the deployment
+	TerraformVersion string `json:"terraform_version,omitempty"`
+
 	// Cloud specifies the cloud provider to which it was deployed. It accepts any string which is apt
 	// for your use case. Examples include GCP, AWS, Self-hosted, EU-cloud... Cloud is case-sensitive.
 	Cloud string `json:"cloud"`
@@ -46,7 +53,14 @@ type Metadata struct {
 	Parameters map[string]interface{} `json:"parameters,omitempty"`
 
 	// MonitoringLink helps to specify the link to monitoring, for example prometheus dashboard, etc.
+	// Deprecated, use MonitoringLinks instead
 	MonitoringLink string `json:"monitoring_link,omitempty"`
+
+	// MonitoringLinks helps to specify the link to monitoring, for example prometheus dashboard, etc.
+	MonitoringLinks []string `json:"monitoring_links,omitempty"`
+
+	// LoggingLinks helps to specify links to logging dashboards, for example grafana, etc.
+	LoggingLinks []string `json:"logging_links,omitempty"`
 
 	// DeploymentLinks specifies the link to deployment, if it is HTTP API endpoint. Optional.
 	// Deprecated, use DeploymentLinks instead

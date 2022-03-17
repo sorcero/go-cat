@@ -7,9 +7,10 @@
 package main
 
 import (
+	"strings"
+
 	"github.com/urfave/cli/v2"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
-	"strings"
 )
 
 func parseCliParameters(p string) map[string]interface{} {
@@ -43,6 +44,8 @@ func newInfrastructureFromCliContext(context *cli.Context) *infrastructure.Metad
 		MonitoringLink:  context.String("monitoring-link"),
 		DeploymentLink:  context.String("deployment-link"),
 		DeploymentLinks: parseDeploymentLinks(context.String("deployment-links")),
+		MonitoringLinks: parseDeploymentLinks(context.String("monitoring-links")),
+		LoggingLinks:    parseDeploymentLinks(context.String("logging-links")),
 		Parameters:      parseCliParameters(context.String("parameters")),
 	}
 

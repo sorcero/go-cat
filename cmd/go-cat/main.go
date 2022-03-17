@@ -29,6 +29,8 @@ func main() {
 		&cli.StringFlag{Name: "subsystem", Usage: "Name of the parent project, to which the child service belongs to"},
 		&cli.StringFlag{Name: "deployment-link", Usage: "The HTTP URL or access endpoint of the API or service"},
 		&cli.StringFlag{Name: "deployment-links", Usage: "Multiple HTTP URLs or access endpoint of the API or service, separated by comma"},
+		&cli.StringFlag{Name: "logging-links", Usage: "Multiple HTTP URLs of the logging dashboard of the service, separated by comma"},
+		&cli.StringFlag{Name: "monitoring-links", Usage: "Multiple HTTP URLs of the monitoring dashboard of the servide, separated by comma"},
 		&cli.StringFlag{Name: "parameters", Usage: "Additional parameters"},
 	}
 	app := &cli.App{

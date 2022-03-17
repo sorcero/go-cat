@@ -44,6 +44,8 @@ func NewInfraFromSchemaResourceData(d *schema.ResourceData) *infrastructure.Meta
 		Type:            safeGet(d, "type"),
 		MonitoringLink:  safeGet(d, "monitoring_link"),
 		DeploymentLink:  safeGet(d, "deployment_link"),
+		MonitoringLinks: safeListGet(d, "monitoring_links"),
+		LoggingLinks:    safeListGet(d, "logging_links"),
 		DeploymentLinks: safeListGet(d, "deployment_links"),
 		Parameters:      safeMapGet(d, "parameters"),
 	}
@@ -60,6 +62,9 @@ func NewSchemaResourceDataFromInfra(d *infrastructure.Metadata, s *schema.Resour
 	must(s.Set("subsystem", d.Subsystem))
 	must(s.Set("deployment_link", d.DeploymentLink))
 	must(s.Set("deployment_links", d.DeploymentLinks))
+	must(s.Set("monitoring_link", d.MonitoringLink))
+	must(s.Set("monitoring_links", d.MonitoringLinks))
+	must(s.Set("logging_links", d.LoggingLinks))
 	must(s.Set("parameters", d.Parameters))
 	return s
 }
