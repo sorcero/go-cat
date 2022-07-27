@@ -56,6 +56,7 @@ func Push(cfg config.GlobalConfig, repo *git.Repository) error {
 		Auth:       auth,
 	})
 	if err != nil {
+		logger.Debug(err)
 		return err
 	}
 	return nil

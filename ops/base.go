@@ -2,6 +2,7 @@ package ops
 
 import (
 	"fmt"
+
 	"github.com/go-git/go-billy/v5"
 	"github.com/go-git/go-git/v5"
 	"gitlab.com/sorcero/community/go-cat/config"
@@ -49,13 +50,16 @@ func updateRepository(cfg config.GlobalConfig, repo *git.Repository, fs billy.Fi
 	}
 
 	_, err = w.Commit(fmt.Sprintf("Updated from %s", hostname), &git.CommitOptions{})
+
 	if err != nil {
+		logger.Debug(err)
 		return err
 	}
 
 	logger.Info("Updating git repository with new infrastructure")
 	err = storage.Push(cfg, repo)
 	if err != nil {
+		logger.Debug(err)
 		return err
 	}
 	logger.Info("git repository updated")

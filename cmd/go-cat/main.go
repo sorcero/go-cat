@@ -7,14 +7,17 @@
 package main
 
 import (
-	"log"
+	"github.com/withmandala/go-log"
 	"os"
 
 	"github.com/urfave/cli/v2"
 	"gitlab.com/sorcero/community/go-cat/meta"
 )
 
+var logger = log.New(os.Stdout)
+
 func main() {
+
 	gitFlags := []cli.Flag{
 		&cli.StringFlag{Name: "git.url", Usage: "URL to the git repository", EnvVars: []string{meta.GitUrlEnvVar}},
 		&cli.StringFlag{Name: "git.username", Usage: "Username, if the Git repository requires HTTP Auth", EnvVars: []string{meta.GitUsernameEnvVar}},
@@ -87,6 +90,6 @@ func main() {
 	}
 	err := app.Run(os.Args)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 }

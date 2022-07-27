@@ -1,6 +1,7 @@
 package ops
 
 import (
+	"github.com/cenkalti/backoff/v4"
 	"github.com/go-git/go-billy/v5"
 	"github.com/go-git/go-git/v5"
 	"gitlab.com/sorcero/community/go-cat/config"
@@ -17,7 +18,22 @@ func Upsert(cfg config.GlobalConfig, infra *infrastructure.Metadata) error {
 	if err != nil {
 		return err
 	}
-	return UpsertFromStorage(cfg, repo, fs, infra)
+	return SafeUpsertFromStorage(cfg, repo, fs, infra)
+}
+
+func SafeUpsertFromStorage(cfg config.GlobalConfig, repo *git.Repository, fs billy.Filesystem, infra *infrastructure.Metadata) error {
+	operation := func() error {
+		err := UpsertFromStorage(cfg, repo, fs, infra)
+		if err != nil {
+			var errClone error
+			repo, fs, errClone = storage.Clone(cfg)
+			if errClone != nil {
+				panic(errClone)
+			}
+		}
+		return err
+	}
+	return backoff.Retry(operation, backoff.NewExponentialBackOff())
 }
 
 // UpsertFromStorage  parses the provided argument storage for infrastructure
@@ -33,6 +49,7 @@ func UpsertFromStorage(cfg config.GlobalConfig, repo *git.Repository, fs billy.F
 	logger.Info("Adding infrastructure")
 	infraMeta, err := parser.ReadInfrastructureFromJson(infraJson)
 	if err != nil {
+		logger.Debug(err)
 		return err
 	}
 	infraMeta, _ = infraMeta.Add(infra)
@@ -44,6 +61,7 @@ func UpsertFromStorage(cfg config.GlobalConfig, repo *git.Repository, fs billy.F
 
 	err = updateRepository(cfg, repo, fs, readmeString, infraJson)
 	if err != nil {
+		logger.Debug(err)
 		return err
 	}
 	return nil

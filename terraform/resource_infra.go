@@ -101,7 +101,7 @@ func resourceInfraCreate(ctx context.Context, d *schema.ResourceData, m interfac
 	var diags diag.Diagnostics
 
 	infra := NewInfraFromSchemaResourceData(d)
-	err = ops.UpsertFromStorage(c.Config, c.Repo, c.Storage, infra)
+	err = ops.SafeUpsertFromStorage(c.Config, c.Repo, c.Storage, infra)
 	if err != nil {
 		return diag.FromErr(err)
 	}
