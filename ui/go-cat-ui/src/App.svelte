@@ -1,7 +1,14 @@
 <script lang="ts">
+  // utils: relative time and copy to clipboard
   import RelativeTime from '@yaireo/relative-time'
   import clipboardCopy from 'clipboard-copy'
+
+  // search
   import Fuse from 'fuse.js'
+
+  // svelte components
+  import CloudNativeMonitoring from './CloudNativeMonitoring.svelte';
+  import CloudNativeLogging from './CloudNativeLogging.svelte';
 
   // add fontawesome icons 
   import Fa from 'svelte-fa/src/fa.svelte'
@@ -17,6 +24,9 @@
   const relativeTime = new RelativeTime(); 
 	
   import infra_json from './infra.json';
+import Monitoring from './Monitoring.svelte';
+import InfraType from './InfraType.svelte';
+
   let data = infra_json["infra"];
 
   const fuse = new Fuse(data, {
@@ -178,29 +188,13 @@
               </div>
 
               {#if d.infra_type }
-              <div class="control">
-                <div class="tags has-addons">
-                  <span class="tag is-dark">Type</span>
-                  <span class="tag is-primary">{d.infra_type}</span>
-                </div>
-              </div>
+              <InfraType infra={d} />
+              <CloudNativeMonitoring infra={d} />
+              <CloudNativeLogging infra={d} />
               {/if}
 
               {#if d.monitoring_links}
-                {#each d.monitoring_links as link}
-                {#if link}
-              
-                <div class="control">
-                <a href="{link}" target="_blank">
-                  <div class="tags has-addons">
-                    <span class="tag is-dark">Monitoring</span>
-                    <span class="tag is-primary">{(new URL(link)).hostname}</span>
-                  </div>
-                </a>
-                </div>
-                {/if}
-                {/each}
-
+                <Monitoring infra={d} />
               {/if}
             </div>
           
