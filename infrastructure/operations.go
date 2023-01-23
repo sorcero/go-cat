@@ -13,7 +13,8 @@ import (
 
 // Remove removes Infrastructure from InfrastructureMetadata which matches the id
 // using regex.
-//      $ go-cat remove --id "aws/*"
+//
+//	$ go-cat remove --id "aws/*"
 func (infraMeta *MetadataGroup) Remove(id string) (*MetadataGroup, error) {
 	infras := infraMeta.Infra
 	idRegex, err := regexp.Compile(id)

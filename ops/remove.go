@@ -1,6 +1,7 @@
 package ops
 
 import (
+	"github.com/cenkalti/backoff/v4"
 	"github.com/go-git/go-billy/v5"
 	"github.com/go-git/go-git/v5"
 	"gitlab.com/sorcero/community/go-cat/config"
@@ -15,7 +16,22 @@ func Remove(cfg config.GlobalConfig, id string) error {
 		return err
 	}
 
-	return RemoveFromStorage(cfg, repo, fs, id)
+	return SafeRemoveFromStorage(cfg, repo, fs, id)
+}
+
+func SafeRemoveFromStorage(cfg config.GlobalConfig, repo *git.Repository, fs billy.Filesystem, id string) error {
+	operation := func() error {
+		err := RemoveFromStorage(cfg, repo, fs, id)
+		if err != nil {
+			var errClone error
+			repo, fs, errClone = storage.Clone(cfg)
+			if errClone != nil {
+				panic(errClone)
+			}
+		}
+		return err
+	}
+	return backoff.Retry(operation, backoff.NewExponentialBackOff())
 }
 
 func RemoveFromStorage(cfg config.GlobalConfig, repo *git.Repository, fs billy.Filesystem, id string) error {
