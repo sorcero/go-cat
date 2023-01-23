@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.13.0
-	gitlab.com/sorcero/community/go-cat v0.0.12
+	gitlab.com/sorcero/community/go-cat v0.0.13
 )
 
 require (
