@@ -14,6 +14,7 @@ require (
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/atsushinee/go-markdown-generator v0.0.0-20191121114853-83f9e1f68504 // indirect
+	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
 	github.com/emirpasic/gods v1.12.1 // indirect
 	github.com/fatih/color v1.13.0 // indirect
