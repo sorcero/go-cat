@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/cenkalti/backoff/v4"
+	"github.com/urfave/cli/v2"
 	"io/ioutil"
 
-	"github.com/urfave/cli/v2"
 	"gitlab.com/sorcero/community/go-cat/config"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
 	"gitlab.com/sorcero/community/go-cat/ops"
@@ -43,7 +44,16 @@ func catInfrastructureCliContext(context *cli.Context) error {
 }
 
 func pushInfrastructureCliContext(context *cli.Context) error {
-	err := ops.Push(config.NewGlobalConfigFromCliContext(context))
+	o := func() error {
+		err := ops.Push(config.NewGlobalConfigFromCliContext(context))
+		if err != nil {
+			fmt.Println(err)
+			fmt.Println("retrying...")
+			return err
+		}
+		return nil
+	}
+	err := backoff.Retry(o, backoff.WithMaxRetries(backoff.NewExponentialBackOff(), 3))
 	if err != nil {
 		return err
 	}
@@ -86,7 +96,17 @@ func upsertInfrastructureCliContext(context *cli.Context) error {
 	i := newInfrastructureFromCliContext(context)
 	i.GetId()
 
-	err := ops.Upsert(config.NewGlobalConfigFromCliContext(context), i)
+	o := func() error {
+		err := ops.Upsert(config.NewGlobalConfigFromCliContext(context), i)
+		if err != nil {
+			fmt.Println(err)
+			fmt.Println("retrying...")
+			return err
+		}
+		return nil
+	}
+	err := backoff.Retry(o, backoff.WithMaxRetries(backoff.NewExponentialBackOff(), 3))
+
 	if err != nil {
 		return err
 	}
