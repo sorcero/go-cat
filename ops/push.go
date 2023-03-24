@@ -11,20 +11,24 @@ import (
 	"gitlab.com/sorcero/community/go-cat/meta"
 	"gitlab.com/sorcero/community/go-cat/parser"
 	"gitlab.com/sorcero/community/go-cat/storage"
-	"io/ioutil"
 	"os"
 )
 
 // Push pushes all the infrastructure from queue
 func Push(cfg config.GlobalConfig) error {
+	queueDB := meta.QueueDbName
+	return PushWithDbQueue(cfg, queueDB)
+}
+
+func PushWithDbQueue(cfg config.GlobalConfig, queueDB string) error {
 	repo, fs, err := storage.Clone(cfg)
 	if err != nil {
 		return err
 	}
 
 	infraMetaQueue := &infrastructure.MetadataGroup{}
-	if helpers.CheckFileExists(meta.QueueDbName) {
-		data, err := ioutil.ReadFile(meta.QueueDbName)
+	if helpers.CheckFileExists(queueDB) {
+		data, err := os.ReadFile(queueDB)
 		if err != nil {
 			return err
 		}

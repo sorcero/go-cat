@@ -36,6 +36,9 @@ func main() {
 		&cli.StringFlag{Name: "monitoring-links", Usage: "Multiple HTTP URLs of the monitoring dashboard of the servide, separated by comma"},
 		&cli.StringFlag{Name: "parameters", Usage: "Additional parameters"},
 	}
+	queueFlags := []cli.Flag{
+		&cli.StringFlag{Name: "queue", Required: false, Usage: "Specifies a file path to store the queue in."},
+	}
 	app := &cli.App{
 		Name:  "go-cat",
 		Usage: "CLI tool to have an overview of Infrastructure, as an API as well as Markdown",
@@ -53,16 +56,14 @@ func main() {
 				Usage:  "Add infrastructure to queue",
 				Action: addInfrastructureCliContext,
 
-				Flags: append(infraFlags,
-					&cli.StringFlag{Name: "queue", Required: false, Usage: "Specifies a file path to store the queue in."},
-				),
+				Flags: append(infraFlags, queueFlags...),
 			},
 			{
 				Name:   "push",
 				Usage:  "Push changes from infrastructure queue to git",
 				Action: pushInfrastructureCliContext,
 
-				Flags: gitFlags,
+				Flags: append(gitFlags, queueFlags...),
 			},
 			{
 				Name:   "cat",

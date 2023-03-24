@@ -45,7 +45,13 @@ func catInfrastructureCliContext(context *cli.Context) error {
 
 func pushInfrastructureCliContext(context *cli.Context) error {
 	o := func() error {
-		err := ops.Push(config.NewGlobalConfigFromCliContext(context))
+		var err error
+		if context.String("queue") == "" {
+			err = ops.Push(config.NewGlobalConfigFromCliContext(context))
+		} else {
+			err = ops.PushWithDbQueue(config.NewGlobalConfigFromCliContext(context), context.String("queue"))
+		}
+
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println("retrying...")
