@@ -53,7 +53,9 @@ func main() {
 				Usage:  "Add infrastructure to queue",
 				Action: addInfrastructureCliContext,
 
-				Flags: infraFlags,
+				Flags: append(infraFlags,
+					&cli.StringFlag{Name: "queue", Required: false, Usage: "Specifies a file path to store the queue in."},
+				),
 			},
 			{
 				Name:   "push",

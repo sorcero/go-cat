@@ -6,14 +6,13 @@ import (
 	"gitlab.com/sorcero/community/go-cat/internal/helpers"
 	"gitlab.com/sorcero/community/go-cat/meta"
 	"io/ioutil"
+	"os"
 )
 
-// Add adds an infrastructure to queue, which can be subsequently pushed using
-// push command
-func Add(infra *infrastructure.Metadata) error {
+func AddWithDbName(infra *infrastructure.Metadata, queueDb string) error {
 	infraMeta := &infrastructure.MetadataGroup{}
-	if helpers.CheckFileExists(meta.QueueDbName) {
-		data, err := ioutil.ReadFile(meta.QueueDbName)
+	if helpers.CheckFileExists(queueDb) {
+		data, err := ioutil.ReadFile(queueDb)
 		if err != nil {
 			return err
 		}
@@ -30,10 +29,17 @@ func Add(infra *infrastructure.Metadata) error {
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(meta.QueueDbName, data, 0o644)
+	err = os.WriteFile(queueDb, data, 0o644)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+// Add adds an infrastructure to queue, which can be subsequently pushed using
+// push command
+func Add(infra *infrastructure.Metadata) error {
+	queueDb := meta.QueueDbName
+	return AddWithDbName(infra, queueDb)
 }

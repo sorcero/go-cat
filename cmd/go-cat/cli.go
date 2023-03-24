@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/cenkalti/backoff/v4"
 	"github.com/urfave/cli/v2"
-	"io/ioutil"
+	"os"
 
 	"gitlab.com/sorcero/community/go-cat/config"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
@@ -62,7 +62,7 @@ func pushInfrastructureCliContext(context *cli.Context) error {
 
 func renderInfrastructureCliContext(_ *cli.Context) error {
 	infraMeta := &infrastructure.MetadataGroup{}
-	jsonData, err := ioutil.ReadFile("infra.json")
+	jsonData, err := os.ReadFile("infra.json")
 	if err != nil {
 		return err
 	}
@@ -83,7 +83,12 @@ func addInfrastructureCliContext(context *cli.Context) error {
 	infra := newInfrastructureFromCliContext(context)
 	infra.GetId()
 
-	err := ops.Add(infra)
+	var err error
+	if context.String("queue") == "" {
+		err = ops.Add(infra)
+	} else {
+		err = ops.AddWithDbName(infra, context.String("queue"))
+	}
 	if err != nil {
 		return err
 	}
