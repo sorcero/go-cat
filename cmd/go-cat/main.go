@@ -28,6 +28,7 @@ func main() {
 	infraFlags := []cli.Flag{
 		&cli.StringFlag{Name: "name", Usage: "Name of the service or endpoint"},
 		&cli.StringFlag{Name: "type", Usage: "Type of infrastructure on which the service is deployed to"},
+		&cli.StringFlag{Name: "labels", Usage: "Additional key:value pairs, separated by comma"},
 		&cli.StringFlag{Name: "commit-sha", Usage: "Deployed Commit SHA"},
 		&cli.StringFlag{Name: "cloud", Usage: "Name of the cloud, example: gcp, aws"},
 		&cli.StringFlag{Name: "cloud-project-id", Usage: "A unique identifier of the project / environment in which the service is deployed"},

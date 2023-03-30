@@ -69,9 +69,6 @@ import InfraType from './InfraType.svelte';
     }, 700)
     
   }
-
-  
-
 </script>
 
 <svelte:head>
@@ -102,7 +99,7 @@ import InfraType from './InfraType.svelte';
       <thead>
           <tr>
               <th><abbr title="Deployment Name">Name</abbr></th>
-              <th>Deployment Links</th>
+              <th>Links</th>
               <th>Tags</th>
           </tr>
 
@@ -195,6 +192,7 @@ import InfraType from './InfraType.svelte';
                 </div>
               </div>
 
+
               {#if d.infra_type }
               <InfraType infra={d} />
               <CloudNativeMonitoring infra={d} />
@@ -204,6 +202,19 @@ import InfraType from './InfraType.svelte';
               {#if d.monitoring_links}
                 <Monitoring infra={d} />
               {/if}
+              
+              
+              {#each Object.entries(d.labels) as [k, v]}
+                
+                <div class="control">
+                  <div class="tags has-addons">
+                    <span class="tag is-dark">{k}</span>
+                    <span class="tag is-primary">{v}</span>
+                  </div>
+                </div>  
+              {/each}
+
+              
             </div>
           
           </td>

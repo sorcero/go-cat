@@ -101,7 +101,7 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 						labels += fmt.Sprintf("`%s:%s`, <br>", k, infra.Labels[k])
 					}
 				}
-				t.SetContent(i, 2, fmt.Sprintf("`sha:%s`%s", infra.CommitSha, something))
+				t.SetContent(i, 2, fmt.Sprintf("`sha:%s`%s", infra.CommitSha, labels))
 				t.SetContent(i, 3, infra.DeployedOn.Format("2006-01-02 15:04:05 -0700 MST"))
 
 				// get logging and monitoring links, and only show them if we support monitoring
