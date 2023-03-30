@@ -8,6 +8,7 @@ require (
 	github.com/go-git/go-billy/v5 v5.3.1
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.13.0
+	github.com/juju/fslock v0.0.0-20160525022230-4d5c94c67b4b
 	github.com/urfave/cli/v2 v2.4.0
 	github.com/withmandala/go-log v0.1.0
 )
