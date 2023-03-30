@@ -38,7 +38,15 @@ func PushWithDbQueue(cfg config.GlobalConfig, queueDB string) error {
 		}
 	}
 
-	return PushFromStorage(repo, fs, infraMetaQueue, cfg)
+	err = PushFromStorage(repo, fs, infraMetaQueue, cfg)
+	if err != nil {
+		logger.Fatal(err)
+	}
+	err = os.Remove(queueDB)
+	if err != nil {
+		panic(err)
+	}
+
 }
 
 func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *infrastructure.MetadataGroup, cfg config.GlobalConfig) error {
@@ -107,9 +115,5 @@ func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *
 		return err
 	}
 	logger.Info("git repository updated")
-	err = os.Remove(meta.QueueDbName)
-	if err != nil {
-		return err
-	}
 	return nil
 }
