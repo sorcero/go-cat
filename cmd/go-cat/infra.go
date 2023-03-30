@@ -24,7 +24,19 @@ func parseCliParameters(p string) map[string]interface{} {
 		m[strings.TrimSpace(keyValue[0])] = strings.TrimSpace(keyValue[1])
 	}
 	return m
+}
 
+func parseCliParametersKV(p string) map[string]string {
+	k := strings.Split(p, ",")
+	m := map[string]string{}
+	for i := range k {
+		if k[i] == "" {
+			continue
+		}
+		keyValue := strings.SplitN(k[i], "=", 2)
+		m[strings.TrimSpace(keyValue[0])] = strings.TrimSpace(keyValue[1])
+	}
+	return m
 }
 
 func parseDeploymentLinks(p string) []string {
@@ -47,6 +59,7 @@ func newInfrastructureFromCliContext(context *cli.Context) *infrastructure.Metad
 		MonitoringLinks: parseDeploymentLinks(context.String("monitoring-links")),
 		LoggingLinks:    parseDeploymentLinks(context.String("logging-links")),
 		Parameters:      parseCliParameters(context.String("parameters")),
+		Labels:          parseCliParametersKV(context.String("labels")),
 	}
 
 	return infra

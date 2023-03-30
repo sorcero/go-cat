@@ -30,7 +30,11 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 	}
 
 	book := doc.NewMarkDown()
-	book.WriteTitle("Infrastructure", 1).WriteLines(2)
+	if infraMeta.Title != "" {
+		book.WriteTitle(infraMeta.Title, 1).WriteLines(2)
+	} else {
+		book.WriteTitle("Infrastructure", 1).WriteLines(2)
+	}
 	book.Write(fmt.Sprintf("Last updated on %s", infraMeta.UpdatedAt)).WriteLines(2)
 
 	legend := doc.NewTable(3, 3)
@@ -80,7 +84,7 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 			t := doc.NewTable(len(components), 6)
 			t.SetTitle(0, "Component")
 			t.SetTitle(1, "Subsystem")
-			t.SetTitle(2, "SHA")
+			t.SetTitle(2, "Labels")
 			t.SetTitle(3, "Deployed On")
 			t.SetTitle(4, "Type")
 			t.SetTitle(5, "API Endpoints")
@@ -89,7 +93,15 @@ func InfrastructureMetaToString(infraMeta *infrastructure.MetadataGroup) (string
 				infra := components[i]
 				t.SetContent(i, 0, fmt.Sprintf("**%s**", infra.Name))
 				t.SetContent(i, 1, infra.Subsystem)
-				t.SetContent(i, 2, fmt.Sprintf("`%s`", infra.CommitSha))
+
+				labels := ""
+				if infra.Labels != nil {
+					labels += ", <br>"
+					for k := range infra.Labels {
+						labels += fmt.Sprintf("`%s:%s`, <br>", k, infra.Labels[k])
+					}
+				}
+				t.SetContent(i, 2, fmt.Sprintf("`sha:%s`%s", infra.CommitSha, something))
 				t.SetContent(i, 3, infra.DeployedOn.Format("2006-01-02 15:04:05 -0700 MST"))
 
 				// get logging and monitoring links, and only show them if we support monitoring

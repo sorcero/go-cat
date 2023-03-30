@@ -15,6 +15,8 @@ type GlobalConfig struct {
 	// GitUsername and GitPassword is optional, if the repository is private, it will be required
 	GitUsername string
 	GitPassword string
+
+	Title string
 }
 
 func NewGlobalConfigFromCliContext(context *cli.Context) GlobalConfig {
@@ -22,5 +24,7 @@ func NewGlobalConfigFromCliContext(context *cli.Context) GlobalConfig {
 		GitRepository: context.String("git.url"),
 		GitUsername:   context.String("git.username"),
 		GitPassword:   context.String("git.password"),
+
+		Title: context.String("title"),
 	}
 }

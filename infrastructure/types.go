@@ -68,6 +68,9 @@ type Metadata struct {
 
 	// DeploymentLinks specifies the link to deployment, if it is HTTP API endpoint. Optional.
 	DeploymentLinks []string `json:"deployment_links,omitempty"`
+
+	// Labels are key value pairs to store additional information
+	Labels map[string]string `json:"labels,omitempty"`
 }
 
 // GetId returns a unique identification id of the infrastructure
@@ -82,6 +85,7 @@ func (i *Metadata) GetId() string {
 // time the entire file was updated, etc.
 type MetadataGroup struct {
 	Version   string      `json:"version"`
+	Title     string      `json:"title"`
 	UpdatedAt time.Time   `json:"updated_at"`
 	Infra     []*Metadata `json:"infra"`
 }

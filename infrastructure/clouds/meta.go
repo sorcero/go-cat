@@ -11,7 +11,8 @@ import (
 )
 
 var Meta = map[string]Metadata{
-	"GCP": googleInfrastructureMetadata,
+	"GCP":     googleInfrastructureMetadata,
+	"togomak": togomakInfrastructureMetadata,
 }
 
 func getInfraMetaFromCloud(infra infrastructure.Metadata) *TypeMetadata {
