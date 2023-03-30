@@ -46,6 +46,7 @@ func PushWithDbQueue(cfg config.GlobalConfig, queueDB string) error {
 	if err != nil {
 		panic(err)
 	}
+  return nil
 
 }
 
