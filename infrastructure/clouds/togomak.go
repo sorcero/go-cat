@@ -9,6 +9,7 @@ package clouds
 import (
 	"fmt"
 	"gitlab.com/sorcero/community/go-cat/infrastructure"
+	"net/url"
 	"time"
 )
 
@@ -36,7 +37,7 @@ var togomakInfrastructureMetadata = Metadata{
 				}
 
 				query := "jsonPayload.labels.stage = \"%s\"\nlabels.instanceId = \"%s\";timeRange=%s/%s--PT24H;"
-				query = fmt.Sprintf(query, stage, instanceID, m.DeployedOn.Format(time.RFC3339Nano), m.DeployedOn.Format(time.RFC3339Nano))
+				query = url.PathEscape(fmt.Sprintf(query, stage, instanceID, m.DeployedOn.Format(time.RFC3339Nano), m.DeployedOn.Format(time.RFC3339Nano)))
 
 				return fmt.Sprintf("https://console.cloud.google.com/logs/query;query=%s?project=%s", query, m.CloudProjectId)
 			},
