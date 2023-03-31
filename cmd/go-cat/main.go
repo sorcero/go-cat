@@ -23,7 +23,7 @@ func main() {
 		&cli.StringFlag{Name: "git.username", Usage: "Username, if the Git repository requires HTTP Auth", EnvVars: []string{meta.GitUsernameEnvVar}},
 		&cli.StringFlag{Name: "git.password", Usage: "Password, if the Git repository requires HTTP Auth", EnvVars: []string{meta.GitPasswordEnvVar}},
 
-		&cli.StringFlag{Name: "title", Required: false, Usage: "Title of the catalog page"},
+		&cli.StringFlag{Name: "title", Usage: "Title of the infrastructure"},
 	}
 	infraFlags := []cli.Flag{
 		&cli.StringFlag{Name: "name", Usage: "Name of the service or endpoint"},

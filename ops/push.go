@@ -37,6 +37,7 @@ func PushWithDbQueue(cfg config.GlobalConfig, queueDB string) error {
 			return err
 		}
 	}
+	infraMetaQueue.Title = cfg.Title
 
 	err = PushFromStorage(repo, fs, infraMetaQueue, cfg)
 	if err != nil {
