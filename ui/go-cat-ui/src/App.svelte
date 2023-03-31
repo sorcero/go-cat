@@ -204,7 +204,7 @@ import InfraType from './InfraType.svelte';
               {/if}
               
               
-              {#each Object.entries(d.labels) as [k, v]}
+              {#each Object.entries(d.labels == null ? {} : d.labels) as [k, v]}
                 
                 <div class="control">
                   <div class="tags has-addons">
