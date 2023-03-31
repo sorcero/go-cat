@@ -72,6 +72,7 @@ func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *
 			return err
 		}
 	}
+	infraMeta.Title = cfg.Title
 
 	readmeString, infraJson, err := parser.InfrastructureMetaToString(infraMeta)
 	if err != nil {
