@@ -16,15 +16,16 @@
         if (overrideInstanceId && overrideInstanceId !== "") {
             instanceID = overrideInstanceId;
         }
+        
 
         let gcl: any = infra.parameters["togomak.srev.in/v1/logging"];
-        if (!gcl || (gcl !== "googlde-cloud")) {
+        if (!gcl || (gcl !== "google-cloud")) {
             return "";
         }
 
         let query: string = `jsonPayload.labels.stage = "${stage}"
         labels.instanceId = "${instanceID}"`;
-        query = encodeURIComponent(query) + `;timeRange=${deployedOn.toISOString()}/${deployedOn.toISOString()}--PT24H;`;
+        query = encodeURIComponent(query) + `;timeRange=${deployedOn.toISOString()}${encodeURIComponent("/")}${deployedOn.toISOString()}--PT24H;`;
 
         return `https://console.cloud.google.com/logs/query;query=${query}?project=${infra.cloud_project_id}`;
 
