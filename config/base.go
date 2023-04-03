@@ -16,7 +16,8 @@ type GlobalConfig struct {
 	GitUsername string
 	GitPassword string
 
-	Title string
+	Title   string
+	Archive bool
 }
 
 func NewGlobalConfigFromCliContext(context *cli.Context) GlobalConfig {
@@ -25,6 +26,7 @@ func NewGlobalConfigFromCliContext(context *cli.Context) GlobalConfig {
 		GitUsername:   context.String("git.username"),
 		GitPassword:   context.String("git.password"),
 
-		Title: context.String("title"),
+		Title:   context.String("title"),
+		Archive: context.Bool("archive"),
 	}
 }

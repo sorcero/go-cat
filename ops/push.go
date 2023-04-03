@@ -95,6 +95,22 @@ func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *
 		return err
 	}
 
+	s := infraMeta.Title
+	if s == "" {
+		s = "Pushed"
+	} else if cfg.Archive && s != "" {
+		archivePath := fmt.Sprintf("archives/%s/infra.json", s)
+		infraDbArchive, _ := fs.Create(archivePath)
+		_, err = infraDbArchive.Write(infraJson)
+		if err != nil {
+			return err
+		}
+		_, err = w.Add(archivePath)
+		if err != nil {
+			return err
+		}
+	}
+
 	_, err = w.Add("README.md")
 	if err != nil {
 		return err
@@ -109,10 +125,6 @@ func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *
 		return err
 	}
 
-	s := infraMeta.Title
-	if s == "" {
-		s = "Pushed"
-	}
 	_, err = w.Commit(fmt.Sprintf("%s from %s", s, hostname), &git.CommitOptions{})
 	if err != nil {
 		return err
