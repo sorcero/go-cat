@@ -108,7 +108,12 @@ func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *
 	if err != nil {
 		return err
 	}
-	_, err = w.Commit(fmt.Sprintf("Updated from %s", hostname), &git.CommitOptions{})
+
+	s := infraMeta.Title
+	if s == "" {
+		s = "Pushed"
+	}
+	_, err = w.Commit(fmt.Sprintf("%s from %s", s, hostname), &git.CommitOptions{})
 	if err != nil {
 		return err
 	}
