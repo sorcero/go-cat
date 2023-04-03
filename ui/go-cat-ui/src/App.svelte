@@ -72,7 +72,7 @@ import InfraType from './InfraType.svelte';
 </script>
 
 <svelte:head>
-  <title> {catalog_name} | go-cat </title>
+  <title> {infra_json["title"]} | {catalog_name} | go-cat </title>
 </svelte:head>
 
 
