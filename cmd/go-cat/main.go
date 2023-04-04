@@ -25,6 +25,7 @@ func main() {
 
 		&cli.StringFlag{Name: "title", Usage: "Title of the infrastructure"},
 		&cli.BoolFlag{Name: "archive", Usage: "Add archive infra.json file"},
+		&cli.BoolFlag{Name: "overwrite", Usage: "Replace infra.json, and do not perform deep merge"},
 	}
 	infraFlags := []cli.Flag{
 		&cli.StringFlag{Name: "name", Usage: "Name of the service or endpoint"},

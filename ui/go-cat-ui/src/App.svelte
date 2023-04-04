@@ -24,8 +24,8 @@
   const relativeTime = new RelativeTime(); 
 	
   import infra_json from './infra.json';
-import Monitoring from './Monitoring.svelte';
-import InfraType from './InfraType.svelte';
+  import Monitoring from './Monitoring.svelte';
+  import InfraType from './InfraType.svelte';
 
   let data = infra_json["infra"];
   let catalog_name = import.meta.env.VITE_APP_CATALOG_NAME;
@@ -81,7 +81,7 @@ import InfraType from './InfraType.svelte';
 <section class="section">
   <div class="container">
   
-    <h1 class="title">{catalog_name}</h1>
+    <h1 class="title">{infra_json["title"]} | {catalog_name}</h1>
     <p id="last_updated" class="subtitle is-loading">
         Last updated <strong>{relativeTime.from(new Date(infra_json["updated_at"]))}</strong>. 
     </p>

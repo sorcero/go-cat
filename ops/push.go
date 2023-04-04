@@ -52,15 +52,17 @@ func PushWithDbQueue(cfg config.GlobalConfig, queueDB string) error {
 }
 
 func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *infrastructure.MetadataGroup, cfg config.GlobalConfig) error {
-	infraJson, err := storage.ReadInfraDb(fs)
-	if err != nil {
-		return err
-	}
-
 	infraMeta := &infrastructure.MetadataGroup{}
-	err = json.Unmarshal(infraJson, infraMeta)
-	if err != nil {
-		return err
+
+	if !cfg.Overwrite {
+		infraJson, err := storage.ReadInfraDb(fs)
+		if err != nil {
+			return err
+		}
+		err = json.Unmarshal(infraJson, infraMeta)
+		if err != nil {
+			return err
+		}
 	}
 
 	logger.Info("Adding infrastructure")
