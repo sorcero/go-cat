@@ -1,6 +1,6 @@
 <script lang="ts">
 
-    export let prerender = true
+    
     
     // utils: relative time and copy to clipboard
     import RelativeTime from '@yaireo/relative-time'

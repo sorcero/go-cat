@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let prerender = true;
+    
     // utils: relative time and copy to clipboard
     import RelativeTime from '@yaireo/relative-time'
     import clipboardCopy from 'clipboard-copy'
@@ -27,14 +27,35 @@
     import infra_json from '../infra.json';
     import Monitoring from '../components/Monitoring.svelte';
     import InfraType from '../components/InfraType.svelte';
-  
-    let data = infra_json["infra"];
+
+    function loadArchives () {
+        let archives: Array<string> = []
+        let archivesRaw = import.meta.glob("./../archives/*/infra.json") //./../sorcero-releases/archives/.*/infra.json");
+
+        for (let each in archivesRaw) {
+            archives.push(each)
+        }
+        const releaseNames: string[] = [];
+        archives.forEach((path: string) => {
+            const directoryPath = path.substring(0, path.lastIndexOf("/"));
+            const directoryName = directoryPath.substring(directoryPath.lastIndexOf("/") + 1);
+            releaseNames.push(directoryName);
+
+        });
+
+        return {
+            releases: releaseNames
+        }
+    }
+
+    let data = loadArchives()
+    let infra_data = infra_json["infra"];
     let catalog_name = import.meta.env.VITE_APP_CATALOG_NAME;
     if (catalog_name == "" || catalog_name == null) {
       catalog_name = "Environment Catalog"
     }
   
-    const fuse = new Fuse(data, {
+    const fuse = new Fuse(infra_data, {
       keys: [
         "id", 
         {
@@ -57,35 +78,20 @@
       search_timer = setTimeout(function() {
   
         if (search_input_value == "") {
-          data = infra_json["infra"];
+          infra_data = infra_json["infra"];
           searching = false;
           return
         }
         
-        let temp_data = fuse.search(search_input_value)
-        data = temp_data.map(({ item })  => item);
+        let temp_infra_data = fuse.search(search_input_value)
+        infra_data = temp_infra_data.map(({ item })  => item);
   
         searching = false;
-        //console.log(data)
+        //console.log(infra_data)
       }, 700)
       
     }
-    async function loadArchives () {
-        let archives: Array<string> = []
-        let archivesRaw = await import.meta.glob("./../archives/*/infra.json") //./../sorcero-releases/archives/.*/infra.json");
-        for (let each in archivesRaw) {
-            archives.push(each)
-        }
-        const releaseNames: string[] = [];
-        archives.forEach((path: string) => {
-            const directoryPath = path.substring(0, path.lastIndexOf("/"));
-            const directoryName = directoryPath.substring(directoryPath.lastIndexOf("/") + 1);
-            releaseNames.push(directoryName);
-
-        });
-
-        return releaseNames
-    }
+    
     
   </script>
   
@@ -124,7 +130,7 @@
         </thead>
         <tbody id="gocat__cloud_body">
           
-          {#each data as d}
+          {#each infra_data as d}
           <tr>
               <td>
                 <a id="{d.id}" href="#{d.id}" class="icon-text is-small">
@@ -251,21 +257,15 @@
         <p class="panel-heading">
           Archives
         </p>
-
-        {#await loadArchives()}
-            <a class="panel-block">
-            Loading...
+        
+        {#each data.releases as archive}    
+            <a href={"/archives/" + archive} class="panel-block" target="_blank" data-sveltekit-preload-data="tap">
+                <span class="panel-icon">
+                    <Fa icon={faArrowUpRightFromSquare} />
+                  </span>
+                {archive}
             </a>
-        {:then archiveList} 
-            {#each archiveList as archive}    
-                <a href="/archives/{archive}" class="panel-block" target="_blank">
-                    <span class="panel-icon">
-                        <Fa icon={faArrowUpRightFromSquare} />
-                      </span>
-                    {archive}
-                </a>
-            {/each}    
-        {/await}
+        {/each}    
         
       </article>
 
