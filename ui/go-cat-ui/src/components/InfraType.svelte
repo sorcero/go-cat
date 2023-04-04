@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type infra_json from "./infra.json";
+    import type infra_json from "../infra.json";
     export let infra: typeof infra_json["infra"][0];
 </script>
 
