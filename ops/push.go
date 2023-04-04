@@ -65,6 +65,7 @@ func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *
 		}
 	}
 
+	var err error
 	logger.Info("Adding infrastructure")
 	for i := range infraMetaQueue.Infra {
 		infra := infraMetaQueue.Infra[i]
