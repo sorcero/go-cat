@@ -47,7 +47,7 @@ go-cat upsert \
   --cloud=GCP --cloud-project-id=my-awesome-project-41313 \
   --type=run.googleapis.com \
   --subsystem=company1 \
-  --deployment-link=https://example.com \
+  --deployment-link=$(cat infra_info.json | jq .deployment_link) \
   --git.url=https://gitlab.com/something/xxx.git \
   --git.username=username \
   --git.password=mysupersecretpassword
