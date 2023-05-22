@@ -5,6 +5,6 @@ RUN cd cmd/go-cat && go build -o /go-cat
 
 
 FROM alpine
-COPY --from=builder /go-cat /app/go-cat
-ENTRYPOINT ["/app/go-cat"]
+COPY --from=builder /go-cat /bin/go-cat
+ENTRYPOINT ["/bin/go-cat"]
 
