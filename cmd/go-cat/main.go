@@ -79,6 +79,7 @@ func main() {
 					[]cli.Flag{
 						&cli.BoolFlag{Name: "deployment-link", Aliases: []string{"d"}, Usage: "Output only the deployment link"},
 						&cli.IntFlag{Name: "deployment-link-index", Aliases: []string{"i"}, Usage: "Output the ith deployment link, defaults to 0", Value: 0},
+						&cli.StringFlag{Name: "env", Aliases: []string{"e"}, Usage: "Include a prefix with 'env='"},
 					}...),
 			},
 			{

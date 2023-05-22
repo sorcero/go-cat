@@ -24,12 +24,20 @@ func catInfrastructureCliContext(context *cli.Context) error {
 			return errors.New("cannot fetch deployment link for multiple infrastructure. try again without wildcards")
 		}
 		if infra[0].DeploymentLink != "" {
-			fmt.Println(infra[0].DeploymentLink)
+			if context.String("env") != "" {
+				fmt.Printf("%s=%s\n", context.String("env"), infra[0].DeploymentLink)
+			} else {
+				fmt.Println(infra[0].DeploymentLink)
+			}
 		} else {
 			if len(infra[0].DeploymentLinks) == 0 {
 				return errors.New("no deployment link found for the specified resource")
 			}
-			fmt.Println(infra[0].DeploymentLinks[context.Int("deployment-link-index")])
+			if context.String("env") != "" {
+				fmt.Printf("%s=%s\n", context.String("env"), infra[0].DeploymentLinks[context.Int("deployment-link-index")])
+			} else {
+				fmt.Println(infra[0].DeploymentLinks[context.Int("deployment-link-index")])
+			}
 		}
 
 		return nil
