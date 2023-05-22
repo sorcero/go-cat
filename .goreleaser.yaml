@@ -10,11 +10,6 @@ builds:
       - amd64
       - arm64
 
-dockers:
-  - image_templates:
-    - sorcero/go-cat
-
-
 release:
   gitlab:
     owner: ""
