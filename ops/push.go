@@ -3,6 +3,7 @@ package ops
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/cenkalti/backoff/v4"
 	"github.com/go-git/go-billy/v5"
 	"github.com/go-git/go-git/v5"
 	"gitlab.com/sorcero/community/go-cat/config"
@@ -39,7 +40,7 @@ func PushWithDbQueue(cfg config.GlobalConfig, queueDB string) error {
 	}
 	infraMetaQueue.Title = cfg.Title
 
-	err = PushFromStorage(repo, fs, infraMetaQueue, cfg)
+	err = SafePushFromStorage(repo, fs, infraMetaQueue, cfg)
 	if err != nil {
 		logger.Fatal(err)
 	}
@@ -48,7 +49,25 @@ func PushWithDbQueue(cfg config.GlobalConfig, queueDB string) error {
 		panic(err)
 	}
 	return nil
+}
 
+func SafePushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *infrastructure.MetadataGroup, cfg config.GlobalConfig) error {
+	operation := func() error {
+		err := PushFromStorage(repo, fs, infraMetaQueue, cfg)
+		if err != nil {
+			logger.Warn(err)
+			var errClone error
+			repo, fs, errClone = storage.Clone(cfg)
+			if errClone != nil {
+				panic(errClone)
+			}
+		}
+		if err != nil {
+			logger.Warn("retrying...")
+		}
+		return err
+	}
+	return backoff.Retry(operation, backoff.NewExponentialBackOff())
 }
 
 func PushFromStorage(repo *git.Repository, fs billy.Filesystem, infraMetaQueue *infrastructure.MetadataGroup, cfg config.GlobalConfig) error {

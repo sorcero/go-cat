@@ -25,11 +25,15 @@ func SafeUpsertFromStorage(cfg config.GlobalConfig, repo *git.Repository, fs bil
 	operation := func() error {
 		err := UpsertFromStorage(cfg, repo, fs, infra)
 		if err != nil {
+			logger.Warn(err)
 			var errClone error
 			repo, fs, errClone = storage.Clone(cfg)
 			if errClone != nil {
 				panic(errClone)
 			}
+		}
+		if err != nil {
+			logger.Warn("retrying...")
 		}
 		return err
 	}
