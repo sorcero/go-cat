@@ -521,6 +521,8 @@ gitlab.com/sorcero/community/go-cat v0.0.13 h1:XclcnMY+/GHm8jvoyIuEP+ILIGbQHNf9Q
 gitlab.com/sorcero/community/go-cat v0.0.13/go.mod h1:AQbkzArwINgiTNFSjRqPE0raQml85BGP82nfWULhW90=
 gitlab.com/sorcero/community/go-cat v0.0.23 h1:1o7V1Onm1Iq36H/KzaQg5Xmnq041FJaGdQxgJC3mVtM=
 gitlab.com/sorcero/community/go-cat v0.0.23/go.mod h1:Jc8MYWz7TMVNG5WN6soYq8x57F8W+G1suxTYMhkB0Xo=
+gitlab.com/sorcero/community/go-cat v0.0.24 h1:WahT56ZlI8wgm67uNFMRGv9F1mPjLpMGhFh2G4jyA2g=
+gitlab.com/sorcero/community/go-cat v0.0.24/go.mod h1:QSkMXy7lqlV1XsMih9PunLQT/desRGNTwSetDUN0V94=
 go.etcd.io/etcd/api/v3 v3.5.0/go.mod h1:cbVKeC6lCfl7j/8jBhAK6aIYO9XOjdptoxU/nLQcPvs=
 go.etcd.io/etcd/client/pkg/v3 v3.5.0/go.mod h1:IJHfcCEKxYu1Os13ZdwCwIUTUVGYTSAM3YSwc9/Ac1g=
 go.etcd.io/etcd/client/v2 v2.305.0/go.mod h1:h9puh54ZTgAKtEbut2oe9P4L/oqKCVB6xsXlzd7alYQ=
