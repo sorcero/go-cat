@@ -22,7 +22,10 @@ func dataSourceInfraRead(ctx context.Context, d *schema.ResourceData, m interfac
 		return diag.FromErr(err)
 	}
 
-	if len(metadata) == 0 {
+	if len(metadata) == 0 && d.Get("ignore_missing").(bool) {
+		d.SetId(id)
+		return diags
+	} else if len(metadata) == 0 {
 		return diag.FromErr(fmt.Errorf("no resource with id '%s' exists", id))
 	} else if len(metadata) > 1 {
 		return diag.FromErr(fmt.Errorf("more than one resource was returned when '%s' id was requested which is not supported yet", id))
@@ -57,6 +60,11 @@ func dataSourceInfra() *schema.Resource {
 			"id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"ignore_missing": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
 			},
 			"name": {
 				Type:     schema.TypeString,
